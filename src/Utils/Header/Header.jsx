@@ -1,15 +1,13 @@
 import React from 'react'
 import './Header.css'
-import '../../Styles/Font.css'
+function Header(props) {
 
-function Header(props){
-    
     console.log(props)
-    return(<div>
+    return (<div>
         <header>
-            <h4 class = "titlefont">{props.title}</h4>
+            {props.title}
         </header>
-        </div>);
+    </div>);
 }
 
 export default Header

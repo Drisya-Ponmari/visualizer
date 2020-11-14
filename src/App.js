@@ -1,16 +1,17 @@
 import logo from './logo.svg';
 import './App.css';
-import './Utils/Header/Header.css'
-import Footer from "./Utils/Footer/Footer"
-import Header from "./Utils/Header/Header"
-
+import Temp from "./temp"
+import IntegralKnapsackVisualizer from "./Container/Visualizer/IntegralKnapsackVisualizser"
+import IntegralKnapSackInput from "./Container/Input/IntegralKnapSackInput"
+import Main from "./Utils/Main/Main"
 
 function App() {
   return (
-    <div>
-      <Header title = "Algorithm Visualizer" />
-      <Footer/>
-    </div>
+    <Main
+      IntegralKnapSackInput={IntegralKnapsackVisualizer}
+      input={IntegralKnapSackInput}
+      problem={IntegralKnapSackProblem}
+    />
   );
 }
 
