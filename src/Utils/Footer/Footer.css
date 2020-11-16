@@ -1,7 +1,8 @@
 footer {
   background-color:firebrick;
   text-align: center;
-  color: white;
   padding: 5x;
-  font-size: 20px;
+  color: white;
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+  font-size: smaller;
 }

@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import "./Main.css"
+import "../../Utils/Font.css"
 import Header from '../Header/Header'
 import Footer from "../Footer/Footer"
 
@@ -11,25 +12,16 @@ export default class Main extends Component {
       data: null
     }
     this.handleChange = this.handleChange.bind(this)
-    this.changeSpeedhandler = this.changeSpeedhandler.bind(this)
   }
 
 
   startvisualise() {
     const Visualizer = this.props.Visualizer;
     return (
-      <Visualizer data={this.state.data} speed={this.state.speed} />
+      <Visualizer data={this.state.data} />
     )
   }
 
-  changeSpeedhandler(Speed) {
-    this.setState(prevState => {
-      return {
-        speed: Speed
-      }
-    })
-
-  }
 
   handleChange(isClicked, data) {
     this.setState(prevState => {
@@ -38,8 +30,8 @@ export default class Main extends Component {
         data: data
       }
     })
-    console.log("handlechange called")
-    console.log(isClicked)
+    console.log("handlechange in main called")
+    //console.log(isClicked)
   }
 
   render() {
@@ -60,7 +52,8 @@ export default class Main extends Component {
             {console.log(this.state.data)}
           </div>
           <div className="desc">
-            Integral knapsack problem
+            <h4 className="Heading">Problem</h4>
+            <p className="paragraph">Given weights and values of n items, put these items in a knapsack of capacity W to get the maximum total value in the knapsack</p>
           </div>
         </section>
         <Footer />

@@ -1,4 +1,15 @@
 .block-value{
     color: black;
     font-size: 20px;
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+}
+.Heading{
+    color: black;
+    font-weight: bolder;
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+}
+.paragraph{
+    color: darkolivegreen;
+    font-size: small;
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
 }

@@ -4,7 +4,7 @@ function Header(props) {
 
     console.log(props)
     return (<div>
-        <header>
+        <header className="Header">
             {props.title}
         </header>
     </div>);

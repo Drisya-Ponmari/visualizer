@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './Block.css';
 import "../../Utils/Font.css"
 function Block(props) {

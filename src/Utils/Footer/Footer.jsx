@@ -3,7 +3,7 @@ import './Footer.css'
 
 function Footer() {
     return (<footer >
-        Author: Drisya Ponmari
+        @author drisyaponmari
     </footer>);
 }
 
