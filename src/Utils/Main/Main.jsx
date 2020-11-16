@@ -2,53 +2,65 @@ import React, { Component } from "react"
 import "./Main.css"
 import Header from '../Header/Header'
 import Footer from "../Footer/Footer"
-import IntegralKnapsackVisualizer from "../../Container/Visualizer/IntegralKnapsackVisualizser"
-import IntegralKnapSackInput from "../../Container/Input/IntegralKnapSackInput"
 
-function startvisualise() {
-  return (
-    <IntegralKnapsackVisualizer
-
-      v={[60, 100, 120, 100, 1, 1, 1, 1, 1, 1]}
-      w={[1, 2, 3, 4, 5, 6, 7, 8, 10, 10]}
-      n={10}
-      W={2}
-      speed={100}
-    />
-  )
-}
 export default class Main extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isClicked: null,
+      isClicked: false,
       data: null
     }
     this.handleChange = this.handleChange.bind(this)
+    this.changeSpeedhandler = this.changeSpeedhandler.bind(this)
+  }
+
+
+  startvisualise() {
+    const Visualizer = this.props.Visualizer;
+    return (
+      <Visualizer data={this.state.data} speed={this.state.speed} />
+    )
+  }
+
+  changeSpeedhandler(Speed) {
+    this.setState(prevState => {
+      return {
+        speed: Speed
+      }
+    })
+
   }
 
   handleChange(isClicked, data) {
-    this.setState({
-      isClicked: isClicked,
-      data: data
+    this.setState(prevState => {
+      return {
+        isClicked: isClicked,
+        data: data
+      }
     })
     console.log("handlechange called")
+    console.log(isClicked)
   }
 
   render() {
-    const X = this.props.y;
+    const Visualizer = this.props.Visualizer;
+    const Input = this.props.Input;
+    const f = this.state.data;
+    const g = this.state.isClicked;
+    const s = this.state.speed;
     return (
       <body>
-        <Header title="KnapSack" />
+        <Header title={this.props.title} />
         <nav>
-          <X func={this.handleChange} />
+          <Input func={this.handleChange} />
         </nav>
         <section>
           <div className="visual">
-            {this.state.isClicked ? startvisualise() : ''}
+            {g ? <Visualizer data={f} speed={s} /> : ''}
+            {console.log(this.state.data)}
           </div>
           <div className="desc">
-
+            Integral knapsack problem
           </div>
         </section>
         <Footer />

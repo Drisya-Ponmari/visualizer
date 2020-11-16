@@ -1,13 +1,12 @@
 import React, { Component } from "react";
-import Main from "../../Utils/Main/Main";
-import IntegralKnapsackVisualizer from "../Visualizer/IntegralKnapsackVisualizser"
+import "../../Utils/Button.css"
+import "../../Utils/Label.css"
 export default class IntegralKnapSackInput extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            numberOfItems: null,
             values: null,
             weights: null,
             Capcity: null
@@ -16,44 +15,61 @@ export default class IntegralKnapSackInput extends Component {
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
+
     handleChange(event) {
 
         const { name, value } = event.target
         this.setState({ [name]: value });
     }
 
+    inputProcess() {
+
+        let temp_values = this.state.values.split(',');
+        let temp_weights = this.state.weights.split(',');
+        const values = temp_values.map((num) => { return Number(num) });
+        const weights = temp_weights.map((num) => { return Number(num) });
+        const number = values.length;
+        const capacity = Number(this.state.Capacity)
+
+        const data = {
+            values: values,
+            weights: weights,
+            numberOfItems: number,
+            capacity: capacity
+        }
+        return data;
+    }
     handleSubmit(event) {
 
-        this.props.func(true, 1)
+        this.props.func(true, this.inputProcess())
         event.preventDefault();
     }
+
     render() {
 
-        console.log(this.state.isClicked)
         return (
             <div>
                 <form onSubmit={this.handleSubmit}>
-                    <input type="text"
-                        name="numberOfItems"
-                        values={this.state.numberOfItems}
-                        onChange={this.handleChange}
-                    />
+                    <label className="label input">value array</label>
                     <input type="text"
                         name="values"
-                        values={this.state.values}
+                        value={this.state.values}
                         onChange={this.handleChange}
                     />
+
+                    <label className="label input" >weight array</label>
                     <input type="text"
                         name="weights"
-                        values={this.state.weights}
+                        value={this.state.weights}
                         onChange={this.handleChange}
                     />
+                    <label className="label input" >capacity array </label>
                     <input type="text"
                         name="Capacity"
-                        values={this.state.Capcity}
+                        value={this.state.Capcity}
                         onChange={this.handleChange}
                     />
-                    <button>Submit</button>
+                    <button className="button submit"> Submit</button>
                 </form>
             </div>
         )

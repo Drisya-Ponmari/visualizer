@@ -4,6 +4,7 @@
  */
 import React from "react";
 import Block from "./Block/Block"
+import "../Utils/Label.css"
 
 /**
  * Function returns the jsx element to show the dp matrix, which is represented as table component.
@@ -13,6 +14,7 @@ export default function Matrix(props) {
     // console.log(props)
     return (
         <div>
+            <label className={props.labeclassname}>{props.title}</label>
             <table>
                 <tbody>
                     {
@@ -20,7 +22,7 @@ export default function Matrix(props) {
                             <tr key={i}>{
                                 numList.map((num, j) =>
                                     <td key={j}>
-                                        <label> {((props.label) && (i === 0)) ? j : ''}</label>
+                                        <label className="colno"> {((props.label) && (i === 0)) ? j : ''}</label>
                                         <Block
                                             value={num.value}
                                             role={num.role}

@@ -1,0 +1,31 @@
+.button{
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.button.start{
+    background-color: black;
+    border-radius: 12px;
+}
+.button.submit{
+    background-color: black;
+    padding: 6px;
+    border-radius: 8px;
+}
+
+.button.play{
+    background-color: green;
+    border-radius: 50%;
+}
+.button.pause{
+    background-color: red;
+    border-radius: 50%;
+}

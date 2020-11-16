@@ -1,0 +1,23 @@
+.label{
+    color: black;
+}
+.colno{
+    font-size: 19px;
+    color: darkgreen;
+    text-align: center;
+}
+
+.heading{
+
+    font-size: large;
+    font-weight: bold;
+}
+
+.subheading{
+    font-size: small;
+    font-weight: bold;
+}
+.input{
+
+    font-size: 20px;
+}

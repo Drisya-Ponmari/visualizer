@@ -6,21 +6,59 @@
 import React, { Component } from "react";
 import Matrix from "../../Components/Matrix";
 import IntegralKnapsack from "../Algorithms/IntegralKnapsack";
-import Problem from "../../Problems/IntegralKnapSack"
-import Control from "../../Components/Control/Control"
+import "../../Utils/Button.css"
+import "../../Utils/ControlBar.css"
+
+
+// or less ideally
+
 
 export default class IntegralKnapsackVisualizer extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            matrix: intialMatrix([], props.n, props.W),
-            weight: intialMatrix(props.w, 0, props.n - 1),
-            value: intialMatrix(props.v, 0, props.n - 1),
-            speed: props.speed
+            matrix: intialMatrix([], props.data.numberOfItems, props.data.capacity),
+            weight: intialMatrix(props.data.weights, 0, props.data.numberOfItems - 1),
+            value: intialMatrix(props.data.values, 0, props.data.numberOfItems - 1),
+            isRunning: false,
+            Iter: 0
         }
 
-        console.log(this.state.weight)
+    }
+    /**
+     * states are updated again when new props arrives
+     */
+    componentWillReceiveProps(props) {
+        this.setState({
+            matrix: intialMatrix([], props.data.numberOfItems, props.data.capacity),
+            weight: intialMatrix(props.data.weights, 0, props.data.numberOfItems - 1),
+            value: intialMatrix(props.data.values, 0, props.data.numberOfItems - 1),
+            speed: props.speed,
+            isRunning: false,
+            Iter: 0
+        })
+
+    }
+
+    /**
+     * pause button
+     */
+    handlePause() {
+        console.log("paused")
+        this.setState(prevState => ({
+            isRunning: false
+        }))
+    }
+
+    /**
+     * play button
+     */
+    handlePlay() {
+        console.log("played")
+        this.setState(prevState => ({
+            isRunning: true
+        }))
     }
 
     /**
@@ -31,104 +69,105 @@ export default class IntegralKnapsackVisualizer extends Component {
     visualize() {
 
         let temp = this.state.matrix;
-        const visited = IntegralKnapsack(this.props.n, this.props.W, this.props.w, this.props.v);
-        console.log("result from integral Knapsack algorithm" + visited);
-        this.animate(visited)
+        this.visited = IntegralKnapsack(this.props.data.numberOfItems, this.props.data.capacity, this.props.data.weights, this.props.data.values);
+        // console.log("result from integral Knapsack algorithm" + visited);
+        this.handlePlay();
     }
 
-    animate(visited) {
+    /**
+     * Animation stops when we showed all the updated cell or after clicking pause button
+     */
+    componentWillUnmount() {
+        clearInterval(this.interval)
+    }
+    componentWillMount() {
+        /**
+        * updating the state matrix role , according to the block from the visited array.
+        * And also revert the previous assigning of the block role.
+        */
+        this.interval = setInterval(() => {
+            if (this.state.isRunning && this.state.Iter < this.visited.length) {
 
-        for (let i = 0; i <= visited.length; i++) {
-
-            let temp = this.state.matrix;
-            let vtemp = this.state.value;
-            /**
-             * End condition. Highlights the bottom cell of the matrix as answeprevcell.
-             */
-            if (i === visited.length) {
-                setTimeout(() => {
-                    if (i !== 0) {
-                        const prevcell = visited[i - 1];
-                        if (prevcell.visit.length !== 0)
-                            temp[prevcell.visit[0]][prevcell.visit[1]].role = "stay";
-                        if (prevcell.vindex != null)
-                            vtemp[0][prevcell.vindex].role = "stay";
-                        temp[prevcell.update[0]][prevcell.update[1]].role = "stay";
-                        this.setState({ matrix: temp, value: vtemp });
-                    }
-                }, this.props.speed * i);
-                return;
-            }
-
-            /**
-             * updating the state matrix role , according to the block from the visited array.
-             * And also revert the previous assigning of the block role.
-             */
-            const cell = visited[i];
-            console.log(cell);
-            setTimeout(() => {
+                const i = this.state.Iter;
+                let temp = this.state.matrix;
+                let vtemp = this.state.value;
+                const cell = this.visited[i];
+                /**
+                 * current showing cell
+                 */
                 if (cell.visit.length !== 0)
                     temp[cell.visit[0]][cell.visit[1]].role = "visit";
-                if (cell.vindex != null)
+                if (cell.vindex !== null)
                     vtemp[0][cell.vindex].role = "visit";
                 temp[cell.update[0]][cell.update[1]].value = cell.value;
                 temp[cell.update[0]][cell.update[1]].role = "update";
-                this.setState({ matrix: temp, value: vtemp });
+                this.setState(prevState => ({
+                    matrix: temp,
+                    value: vtemp
+                }))
+
+                /**
+                 * previous showing cell
+                 */
                 if (i !== 0) {
-                    const prevcell = visited[i - 1];
+                    const prevcell = this.visited[i - 1];
                     if (prevcell.visit.length !== 0)
                         temp[prevcell.visit[0]][prevcell.visit[1]].role = "stay";
-                    if (prevcell.vindex != null)
+                    if (prevcell.vindex !== null && (cell.vindex === null || cell.vindex !== prevcell.vindex))
                         vtemp[0][prevcell.vindex].role = "stay";
+
                     temp[prevcell.update[0]][prevcell.update[1]].role = "stay";
-                    this.setState({ matrix: temp, value: vtemp });
+                    this.setState(prevState => ({
+                        matrix: temp,
+                        value: vtemp
+                    }))
                 }
-            }, this.props.speed * i);
-
-        }
+                /**
+                 * increment the iteration
+                 */
+                this.setState(prevState => ({
+                    Iter: prevState.Iter + 1
+                }))
+            }
+        }, 400);
     }
-
 
     render() {
         return (
             <div>
-                <button onClick={() => this.visualize()}> Visualize Integral KnapSack</button>
                 <div>
-                    {Problem()}
+
                 </div>
                 <Matrix
                     matrix={this.state.matrix}
                     label={true}
+                    title="DP matrix"
+                    labeclassname="label heading"
                 />
-                <Matrix
-                    matrix={this.state.weight}
-                    label={false}
-                />
+                <br />
                 <Matrix
                     matrix={this.state.value}
                     label={false}
+                    title="values"
+                    labeclassname="label subheading"
                 />
-                <Control />
+                <br />
+                <button className="button start" onClick={() => this.visualize()}>Start Visualization</button>
+                <div className="control-bar">
+                    <button className="button play" onClick={() => this.handlePlay()}>Resume</button>
+                    <button className="button pause" onClick={() => this.handlePause()}>Pause</button>
+                </div>
             </div>
         )
     }
 }
 
-
-const initialArray = (w, n) => {
-    let array = new Array(1);
-    for (let row = 0; row <= 0; row++) {
-        array[row] = []
-    }
-
-    for (let row = 0; row <= 0; row++) {
-
-        for (let col = 0; col < n; col++) {
-            array[row][col] = block(w[col]);
-        }
-    };
-    return array;
-}
+/**
+ * matrix is initialised . Used for value array, matrix array and weight array.
+ * @param {Integer array} val 
+ * @param {Integer} Row 
+ * @param {Integer} Col 
+ */
 const intialMatrix = (val, Row, Col) => {
 
     let matrix = new Array(Row + 1);
@@ -145,6 +184,10 @@ const intialMatrix = (val, Row, Col) => {
     return matrix;
 }
 
+/**
+ * Block of each matrix is created.
+ * @param {Integer} value 
+ */
 const block = (value) => {
 
     return {
@@ -152,4 +195,3 @@ const block = (value) => {
         role: "stay"
     };
 };
-

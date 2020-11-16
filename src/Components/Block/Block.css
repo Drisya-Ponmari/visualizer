@@ -1,18 +1,21 @@
-.block-base{
+.block{
     
     width: 50px;
     height: 50px;
-    background-color: gray;
+    display: flex;
+    justify-content:center;
+    align-items:center;
+
 }
 
-.block-visit{
-    width: 50px;
-    height: 50px;
+.base{
+    background-color: gray;
+}
+.visit{
     background-color: red;
 }
 
-.block-update{
-    width: 50px;
-    height: 50px;
+.update{
     background-color:green;
 }
+
