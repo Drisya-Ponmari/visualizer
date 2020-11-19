@@ -47,14 +47,7 @@ export default class Main extends Component {
           <Input func={this.handleChange} />
         </nav>
         <section>
-          <div className="visual">
-            {g ? <Visualizer data={f} speed={s} /> : ''}
-            {console.log(this.state.data)}
-          </div>
-          <div className="desc">
-            <h4 className="Heading">Problem</h4>
-            <p className="paragraph">Given weights and values of n items, put these items in a knapsack of capacity W to get the maximum total value in the knapsack</p>
-          </div>
+          {g ? <Visualizer data={f} speed={s} /> : ''}
         </section>
         <Footer />
       </body>

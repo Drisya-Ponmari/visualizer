@@ -20,6 +20,8 @@ export default function knapSack(n, W, w, v) {
 
     let visited = [];
     let dp = [];
+    let equation = null;
+    let Id = []
 
     /**Initializing the dp matrix */
     for (let i = 0; i <= n; i++) {
@@ -38,31 +40,37 @@ export default function knapSack(n, W, w, v) {
             if (i === 0 || j === 0) {
 
                 dp[i][j] = 0;
-                visited.push(createCell(dp[i][j], [i, j], [], null));
+                equation = "dp[" + i + "][" + j + "] = 0";
+                visited.push(createCell(dp[i][j], [i, j], null, null, null, equation));
+                Id.push([4, 5])
             }
             /** Item can be fitted in the sack. Take the optimal from the previous and new.*/
             else if (w[i - 1] <= j) {
 
                 dp[i][j] = Math.max(v[i - 1] + dp[i - 1][j - w[i - 1]], dp[i - 1][j]);
+                Id.push([6, 7])
+                equation = "dp[" + i + "][" + j + "]  =  max( v[" + (i - 1) + "] + dp[" + (i - 1) + "][ " + j + "- w[" + (i - 1) + "] ], dp[" + (i - 1) + "][" + j + "] )";
 
                 if (v[i - 1] + dp[i - 1][j - w[i - 1]] > dp[i - 1][j]) {
-                    visited.push(createCell(dp[i][j], [i, j], [i - 1, j - w[i - 1]], i - 1))
+                    visited.push(createCell(dp[i][j], [i, j], [i - 1, j - w[i - 1]], [i - 1, j], [i - 1, "visit"], equation))
                 }
                 else {
-                    visited.push(createCell(dp[i][j], [i, j], [i - 1, j], null));
+                    visited.push(createCell(dp[i][j], [i, j], [i - 1, j], [i - 1, j - w[i - 1]], [i - 1, "visit-min"], equation));
                 }
 
             }
             /**Item can't be fitted in the sack. Choose the older options */
             else {
-
+                Id.push([8, 9])
                 dp[i][j] = dp[i - 1][j];
-                visited.push(createCell(dp[i][j], [i, j], [i - 1, j], null));
+                equation = "dp[" + i + "][" + j + "]  =  dp[" + (i - 1) + "][" + j + "]";
+                visited.push(createCell(dp[i][j], [i, j], [i - 1, j], null, null, equation));
             }
         }
     }
 
-    return visited;
+    Id.push([12])
+    return [visited, Id];
 }
 
 /**
@@ -70,16 +78,18 @@ export default function knapSack(n, W, w, v) {
  * @param {integer} value   value after updation of the current cell
  * @param {[integer,integer]} update info (row, col) of the current cell
  * @param {[integer, integer]} visit info of the visited cell
- * @param {integer} v index of the value for the item added.
+ * @param {integer} v index of the value for the item added and the css class.
  * 
  * @description makes the object.
  * @returns obect of the passed parameters.
  */
-const createCell = (value, update, visit, v) => {
+const createCell = (value, update, firstvisit, secondvisit, v, equation) => {
     return {
         value: value,
         update: update,
-        visit: visit,
+        firstVisit: firstvisit,
+        secondVisit: secondvisit,
         vindex: v,
+        equation: equation
     };
 };

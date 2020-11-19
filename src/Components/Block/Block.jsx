@@ -11,7 +11,9 @@ function Block(props) {
             ? 'block visit'
             : props.role === "update"
                 ? 'block update'
-                : 'block base'
+                : props.role === "visit-min"
+                    ? 'block visit-min'
+                    : 'block base'
 
     return (<div className={extraClassName + " block-value"}>
         {props.value}

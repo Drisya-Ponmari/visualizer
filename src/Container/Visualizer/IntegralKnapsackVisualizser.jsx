@@ -6,11 +6,11 @@
 import React, { Component } from "react";
 import Matrix from "../../Components/Matrix";
 import IntegralKnapsack from "../Algorithms/IntegralKnapsack";
+import Problem from "../../Problems/IntegralKnapSackProblem"
 import "../../Utils/Button.css"
 import "../../Utils/ControlBar.css"
-
-
-// or less ideally
+import "../../Utils/Main/Main.css"
+import "../../Utils/Font.css"
 
 
 export default class IntegralKnapsackVisualizer extends Component {
@@ -22,7 +22,9 @@ export default class IntegralKnapsackVisualizer extends Component {
             weight: intialMatrix(props.data.weights, 0, props.data.numberOfItems - 1),
             value: intialMatrix(props.data.values, 0, props.data.numberOfItems - 1),
             isRunning: false,
-            Iter: 0
+            Iter: 0,
+            equation: null,
+            currentId: null,
         }
 
     }
@@ -36,7 +38,9 @@ export default class IntegralKnapsackVisualizer extends Component {
             value: intialMatrix(props.data.values, 0, props.data.numberOfItems - 1),
             speed: props.speed,
             isRunning: false,
-            Iter: 0
+            Iter: 0,
+            equation: null,
+            currentId: null
         })
 
     }
@@ -69,11 +73,64 @@ export default class IntegralKnapsackVisualizer extends Component {
     visualize() {
 
         let temp = this.state.matrix;
-        this.visited = IntegralKnapsack(this.props.data.numberOfItems, this.props.data.capacity, this.props.data.weights, this.props.data.values);
+        const allSteps = IntegralKnapsack(this.props.data.numberOfItems, this.props.data.capacity, this.props.data.weights, this.props.data.values);
+        this.visited = allSteps[0];
+        this.Id = allSteps[1];
         // console.log("result from integral Knapsack algorithm" + visited);
         this.handlePlay();
     }
 
+
+    /**Function to check rows and colun index of two cell a and be not the same*/
+    isNotEqual(a, b) {
+        if (a === null || b === null)
+            return true;
+        if (a[1] === b[1] && a[0] === b[0])
+            return false;
+        return true;
+    }
+
+    /**
+     * Funtion to color the updating , visiting cells
+     */
+    doColor(cell) {
+
+        let temp = this.state.matrix;
+        let vtemp = this.state.value;
+        let equation = null;
+        if (cell.vindex !== null)
+            vtemp[0][cell.vindex[0]].role = cell.vindex[1];
+        if (cell.firstVisit !== null)
+            temp[cell.firstVisit[0]][cell.firstVisit[1]].role = "visit";
+        if (cell.secondVisit !== null)
+            temp[cell.secondVisit[0]][cell.secondVisit[1]].role = "visit-min";
+
+        temp[cell.update[0]][cell.update[1]].value = cell.value;
+        temp[cell.update[0]][cell.update[1]].role = "update";
+
+        return [temp, vtemp]
+    }
+
+    /**
+     *Function to remove the color previusly updated cell
+     */
+    deColor(cell, prevcell, currentBlock) {
+
+        let temp = currentBlock[0]
+        let vtemp = currentBlock[1]
+
+        if (prevcell.firstVisit !== null && this.isNotEqual(cell.firstVisit, prevcell.firstVisit))
+            temp[prevcell.firstVisit[0]][prevcell.firstVisit[1]].role = "stay";
+        if (prevcell.secondVisit !== null && this.isNotEqual(cell.secondVisit, prevcell.secondVisit))
+            temp[prevcell.secondVisit[0]][prevcell.secondVisit[1]].role = "stay";
+
+        if (prevcell.vindex !== null && this.isNotEqual(cell.vindex, prevcell.vindex))
+            vtemp[0][prevcell.vindex[0]].role = "stay";
+
+        temp[prevcell.update[0]][prevcell.update[1]].role = "stay";
+
+        return [temp, vtemp];
+    }
     /**
      * Animation stops when we showed all the updated cell or after clicking pause button
      */
@@ -89,37 +146,27 @@ export default class IntegralKnapsackVisualizer extends Component {
             if (this.state.isRunning && this.state.Iter < this.visited.length) {
 
                 const i = this.state.Iter;
-                let temp = this.state.matrix;
-                let vtemp = this.state.value;
                 const cell = this.visited[i];
                 /**
-                 * current showing cell
+                 * current showing cell by coloring
                  */
-                if (cell.visit.length !== 0)
-                    temp[cell.visit[0]][cell.visit[1]].role = "visit";
-                if (cell.vindex !== null)
-                    vtemp[0][cell.vindex].role = "visit";
-                temp[cell.update[0]][cell.update[1]].value = cell.value;
-                temp[cell.update[0]][cell.update[1]].role = "update";
+                const currentBlock = this.doColor(cell)
                 this.setState(prevState => ({
-                    matrix: temp,
-                    value: vtemp
+                    matrix: currentBlock[0],
+                    value: currentBlock[1],
+                    equation: cell.equation,
+                    currentId: this.Id[i]
                 }))
 
                 /**
-                 * previous showing cell
+                 * previous showing cell, decoloring it
                  */
                 if (i !== 0) {
                     const prevcell = this.visited[i - 1];
-                    if (prevcell.visit.length !== 0)
-                        temp[prevcell.visit[0]][prevcell.visit[1]].role = "stay";
-                    if (prevcell.vindex !== null && (cell.vindex === null || cell.vindex !== prevcell.vindex))
-                        vtemp[0][prevcell.vindex].role = "stay";
-
-                    temp[prevcell.update[0]][prevcell.update[1]].role = "stay";
+                    const prevBlock = this.deColor(cell, prevcell, currentBlock)
                     this.setState(prevState => ({
-                        matrix: temp,
-                        value: vtemp
+                        matrix: prevBlock[0],
+                        value: prevBlock[1]
                     }))
                 }
                 /**
@@ -129,35 +176,40 @@ export default class IntegralKnapsackVisualizer extends Component {
                     Iter: prevState.Iter + 1
                 }))
             }
-        }, 400);
+        }, 1000);
     }
 
     render() {
         return (
-            <div>
-                <div>
+            <section>
+                <div className="visual">
+                    <Matrix
+                        matrix={this.state.matrix}
+                        label={true}
+                        title="DP matrix"
+                        labeclassname="label heading"
+                    />
+                    <br />
+                    <Matrix
+                        matrix={this.state.value}
+                        label={false}
+                        title="values"
+                        labeclassname="label subheading"
+                    />
+                    <br />
+                    <button className="button start" onClick={() => this.visualize()}>Start Visualization</button>
+                    <div className="control-bar">
+                        <button className="button play" onClick={() => this.handlePlay()}>Resume</button>
+                        <button className="button pause" onClick={() => this.handlePause()}>Pause</button>
+                    </div>
 
                 </div>
-                <Matrix
-                    matrix={this.state.matrix}
-                    label={true}
-                    title="DP matrix"
-                    labeclassname="label heading"
-                />
-                <br />
-                <Matrix
-                    matrix={this.state.value}
-                    label={false}
-                    title="values"
-                    labeclassname="label subheading"
-                />
-                <br />
-                <button className="button start" onClick={() => this.visualize()}>Start Visualization</button>
-                <div className="control-bar">
-                    <button className="button play" onClick={() => this.handlePlay()}>Resume</button>
-                    <button className="button pause" onClick={() => this.handlePause()}>Pause</button>
+                <div className="desc">
+                    <Problem id={this.state.currentId} />
+                    <p className="equation">{this.state.equation}</p>
                 </div>
-            </div>
+            </section>
+
         )
     }
 }
