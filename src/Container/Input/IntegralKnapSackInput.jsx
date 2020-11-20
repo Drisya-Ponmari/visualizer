@@ -1,8 +1,13 @@
 import React, { Component } from "react";
 import "../../Utils/Button.css"
 import "../../Utils/Label.css"
+
 export default class IntegralKnapSackInput extends Component {
 
+    /**
+     * Input form for the Integral knapsack problem , which accepts value, weight of the item and capacity of the knapsack.
+     * @param {object} props  includes the function that has to be called in main class after the form is submitted 
+     */
     constructor(props) {
         super(props);
 
@@ -16,12 +21,18 @@ export default class IntegralKnapSackInput extends Component {
     }
 
 
+    /**
+     * Helps in dynamic change in the input form 
+     */
     handleChange(event) {
 
         const { name, value } = event.target
         this.setState({ [name]: value });
     }
 
+    /**
+     * Input values converted to array of integers, by splitting using comma.
+     */
     inputProcess() {
 
         let temp_values = this.state.values.split(',');
@@ -39,6 +50,11 @@ export default class IntegralKnapSackInput extends Component {
         }
         return data;
     }
+
+    /**
+     * After submition of the form , parent class function is called by passing
+     * a signal (boolen variable) and the necessary data
+     */
     handleSubmit(event) {
 
         this.props.func(true, this.inputProcess())
