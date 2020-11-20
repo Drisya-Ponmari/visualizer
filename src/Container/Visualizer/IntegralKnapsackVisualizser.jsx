@@ -9,7 +9,8 @@ import IntegralKnapsack from "../Algorithms/IntegralKnapsack";
 import Problem from "../../Problems/IntegralKnapSackProblem"
 import "../../Utils/Main/Main.css"
 import "../../Utils/Font.css"
-import ControlBar from "../../Utils/ControlBar/ControlBar"
+import "../../Utils/Button.css"
+import "../../Utils/ControlBar.css"
 
 
 export default class IntegralKnapsackVisualizer extends Component {
@@ -196,12 +197,12 @@ export default class IntegralKnapsackVisualizer extends Component {
                         labeclassname="label subheading"
                     />
                     <br />
-                    <ControlBar
-                        visualize={this.visualize}
-                        play={this.handlePlay}
-                        pause={this.handlePause}
-                    />
 
+                    <button className="button start" onClick={() => this.visualize()}>Start Visualization</button>
+                    <div className="control-bar">
+                        <button className="button play" onClick={() => this.handlePlay()}>Resume</button>
+                        <button className="button pause" onClick={() => this.handlePause()}>Pause</button>
+                    </div>
                 </div>
                 <div className="desc">
                     <Problem id={this.state.currentId} />
