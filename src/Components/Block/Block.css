@@ -1,3 +1,4 @@
+/*basic block in the matrix*/
 .block{
     
     width: 50px;
@@ -9,17 +10,22 @@
 
 }
 
+/*basic color*/
 .base{
     background-color: gray;
 }
+/*visited and selected*/
 .visit{
     background-color: red;
 }
 
+/*visited but not selected*/
 .visit-min{
-    background-color: yellow;
-}
-.update{
     background-color:green;
+}
+/*updated cell*/
+.update{
+    transition: all 1s ease;
+    background-color:pink;
 }
 

@@ -1,10 +1,18 @@
+/**
+ * @author Drisya ponamri
+ */
 import React from 'react';
 import './Block.css';
-import "../../Utils/Font.css"
-function Block(props) {
-
-
-
+/**
+ * function return a block in the matrix , with appropriate color and 
+ * value in it
+ * @param {string} props 
+ */
+export default function Block(props) {
+    /**
+     * Select the color of the block , by selecting the corresponding class 
+     * from the prop
+     */
     const extraClassName = props.role === "stay"
         ? 'block base'
         : props.role === "visit"
@@ -14,11 +22,7 @@ function Block(props) {
                 : props.role === "visit-min"
                     ? 'block visit-min'
                     : 'block base'
-
     return (<div className={extraClassName + " block-value"}>
         {props.value}
     </div>);
-
 }
-
-export default Block

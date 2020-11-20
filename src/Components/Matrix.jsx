@@ -8,7 +8,7 @@ import "../Utils/Label.css"
 
 /**
  * Function returns the jsx element to show the dp matrix, which is represented as table component.
- * @param {obejct} props  contains the two D array of objects to be rendered
+ * @param {object} props  contains the two D array of objects to be rendered
  */
 export default function Matrix(props) {
     // console.log(props)
