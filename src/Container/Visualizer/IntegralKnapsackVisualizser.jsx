@@ -7,10 +7,9 @@ import React, { Component } from "react";
 import Matrix from "../../Components/Matrix";
 import IntegralKnapsack from "../Algorithms/IntegralKnapsack";
 import Problem from "../../Problems/IntegralKnapSackProblem"
-import "../../Utils/Button.css"
-import "../../Utils/ControlBar.css"
 import "../../Utils/Main/Main.css"
 import "../../Utils/Font.css"
+import ControlBar from "../../Utils/ControlBar/ControlBar"
 
 
 export default class IntegralKnapsackVisualizer extends Component {
@@ -197,17 +196,18 @@ export default class IntegralKnapsackVisualizer extends Component {
                         labeclassname="label subheading"
                     />
                     <br />
-                    <button className="button start" onClick={() => this.visualize()}>Start Visualization</button>
-                    <div className="control-bar">
-                        <button className="button play" onClick={() => this.handlePlay()}>Resume</button>
-                        <button className="button pause" onClick={() => this.handlePause()}>Pause</button>
-                    </div>
+                    <ControlBar
+                        visualize={this.visualize}
+                        play={this.handlePlay}
+                        pause={this.handlePause}
+                    />
 
                 </div>
                 <div className="desc">
                     <Problem id={this.state.currentId} />
                     <p className="equation">{this.state.equation}</p>
                 </div>
+
             </section>
 
         )
