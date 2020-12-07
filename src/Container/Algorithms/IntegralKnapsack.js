@@ -7,8 +7,8 @@
  * @function knapSack
  * @param {integer} n Total number of items availabe
  * @param {integer} W Capacity of the knapsack
- * @param {array of integer } w Weight of the each items
- * @param {array of integer}  v value of the each items
+ * @param {Array<integer>} w Weight of the each items
+ * @param {Array<integer>}  v value of the each items
  * 
  * @description This function finds the dp matrix for the given input.
  * 
