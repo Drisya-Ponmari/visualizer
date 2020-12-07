@@ -66,7 +66,7 @@ export default class IntegralKnapSackInput extends Component {
         return (
             <div>
                 <form onSubmit={this.handleSubmit}>
-                    <label className="label input">value array</label>
+                    <label className="label input">profit array</label>
                     <input type="text"
                         name="values"
                         value={this.state.values}

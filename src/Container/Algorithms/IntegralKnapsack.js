@@ -23,6 +23,7 @@ export default function knapSack(n, W, w, v) {
     let equation = null;
     let Id = []
 
+    console.log(w)
     /**Initializing the dp matrix */
     for (let i = 0; i <= n; i++) {
         dp[i] = []
@@ -40,7 +41,7 @@ export default function knapSack(n, W, w, v) {
             if (i === 0 || j === 0) {
 
                 dp[i][j] = 0;
-                equation = "dp[" + i + "][" + j + "] = 0";
+                equation = "opt [" + i + "][" + j + "] = 0";
                 visited.push(createCell(dp[i][j], [i, j], null, null, null, equation));
                 Id.push([4, 5])
             }
@@ -49,7 +50,7 @@ export default function knapSack(n, W, w, v) {
 
                 dp[i][j] = Math.max(v[i - 1] + dp[i - 1][j - w[i - 1]], dp[i - 1][j]);
                 Id.push([6, 7])
-                equation = "dp[" + i + "][" + j + "]  =  max( v[" + (i - 1) + "] + dp[" + (i - 1) + "][ " + j + "- w[" + (i - 1) + "] ], dp[" + (i - 1) + "][" + j + "] )";
+                equation = "opt[" + i + "][" + j + "]  =  max( p(O" + (i) + ") + opt[" + (i - 1) + "][ " + j + "- w(O" + (i) + ") ], opt[" + (i - 1) + "][" + j + "] )";
 
                 if (v[i - 1] + dp[i - 1][j - w[i - 1]] > dp[i - 1][j]) {
                     visited.push(createCell(dp[i][j], [i, j], [i - 1, j - w[i - 1]], [i - 1, j], [i - 1, "visit"], equation))
@@ -63,13 +64,16 @@ export default function knapSack(n, W, w, v) {
             else {
                 Id.push([8, 9])
                 dp[i][j] = dp[i - 1][j];
-                equation = "dp[" + i + "][" + j + "]  =  dp[" + (i - 1) + "][" + j + "]";
+                equation = "opt[" + i + "][" + j + "]  =  opt[" + (i - 1) + "][" + j + "]";
                 visited.push(createCell(dp[i][j], [i, j], [i - 1, j], null, null, equation));
             }
+            console.log(dp[i][j])
         }
     }
 
     Id.push([12])
+    equation = "return opt [ " + n + "][" + W + "]";
+    visited.push(createCell(dp[n][W], [n, W], null, null, null, equation));
     return [visited, Id];
 }
 

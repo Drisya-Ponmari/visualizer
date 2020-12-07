@@ -123,11 +123,12 @@ export default class IntegralKnapsackVisualizer extends Component {
             temp[prevcell.firstVisit[0]][prevcell.firstVisit[1]].role = "stay";
         if (prevcell.secondVisit !== null && this.isNotEqual(cell.secondVisit, prevcell.secondVisit))
             temp[prevcell.secondVisit[0]][prevcell.secondVisit[1]].role = "stay";
+        if (this.isNotEqual(cell.update, prevcell.update))
+            temp[prevcell.update[0]][prevcell.update[1]].role = "stay";
 
         if (prevcell.vindex !== null && this.isNotEqual(cell.vindex, prevcell.vindex))
             vtemp[0][prevcell.vindex[0]].role = "stay";
 
-        temp[prevcell.update[0]][prevcell.update[1]].role = "stay";
 
         return [temp, vtemp];
     }
@@ -142,6 +143,7 @@ export default class IntegralKnapsackVisualizer extends Component {
         * updating the state matrix role , according to the block from the visited array.
         * And also revert the previous assigning of the block role.
         */
+
         this.interval = setInterval(() => {
             if (this.state.isRunning && this.state.Iter < this.visited.length) {
 
@@ -186,14 +188,14 @@ export default class IntegralKnapsackVisualizer extends Component {
                     <Matrix
                         matrix={this.state.matrix}
                         label={true}
-                        title="DP matrix"
+                        title="DP table"
                         labeclassname="label heading"
                     />
                     <br />
                     <Matrix
                         matrix={this.state.value}
                         label={false}
-                        title="values"
+                        title="profits"
                         labeclassname="label subheading"
                     />
                     <br />
@@ -203,10 +205,10 @@ export default class IntegralKnapsackVisualizer extends Component {
                         <button className="button play" onClick={() => this.handlePlay()}>Resume</button>
                         <button className="button pause" onClick={() => this.handlePause()}>Pause</button>
                     </div>
+                    <p className="equation">{this.state.equation}</p>
                 </div>
                 <div className="desc">
                     <Problem id={this.state.currentId} />
-                    <p className="equation">{this.state.equation}</p>
                 </div>
 
             </section>
