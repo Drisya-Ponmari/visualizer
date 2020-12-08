@@ -78,10 +78,10 @@ export default function knapSack(n, W, w, v) {
 }
 
 /**
- * 
+ * @component dlkf
  * @param {integer} value   value after updation of the current cell
- * @param {[integer,integer]} update info (row, col) of the current cell
- * @param {[integer, integer]} visit info of the visited cell
+ * @param {Array<integer>} update info (row, col) of the current cell
+ * @param {Array<integer>} visit info of the visited cell
  * @param {integer} v index of the value for the item added and the css class.
  * @param {string} equation equation used for the current step
  * 
