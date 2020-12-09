@@ -4,7 +4,7 @@
  */
 
 /** 
- * @class knapSack
+ * @function 
  * @param {integer} n Total number of items availabe
  * @param {integer} W Capacity of the knapsack
  * @param {Array<integer>} w Weight of the each items
@@ -12,11 +12,13 @@
  * 
  * @description This function finds the dp matrix for the given input.
  * 
- * @returns  Array of object which include row, column, value of the updated
- * cell, visited cell row and colum, added value array index if any.
+ * @returns  Array of object which include,
+ * value of the current updated cell,
+ * row and column of cell updated and visited,
+ * value of the item included,
+ * current dp equation. This will give the overall information of how algorithm is executed.
 */
-
-export default function knapSack(n, W, w, v) {
+function knapSack(n, W, w, v) {
 
     let visited = [];
     let dp = [];
@@ -33,7 +35,7 @@ export default function knapSack(n, W, w, v) {
     }
 
     /**Knapsack algorithm 
-     * @var visited is updated by pushing the neccessary info whenever one cell is updated.
+     *visited is updated by pushing the neccessary info whenever one cell is updated.
     */
     for (let i = 0; i <= n; i++) {
         for (let j = 0; j <= W; j++) {
@@ -78,14 +80,15 @@ export default function knapSack(n, W, w, v) {
 }
 
 /**
- * @component function
+ * @function 
  * @param {integer} value   value after updation of the current cell
  * @param {Array<integer>} update info (row, col) of the current cell
  * @param {Array<integer>} visit info of the visited cell
  * @param {integer} v index of the value for the item added and the css class.
  * @param {string} equation equation used for the current step
  * 
- * @description makes the object.
+ * @description makes the object by wrapping up the input paramenters.Helper function to knapsack 
+ * @see knapSack
  * @returns obect of the passed parameters.
  */
 const createCell = (value, update, firstvisit, secondvisit, v, equation) => {
@@ -98,3 +101,5 @@ const createCell = (value, update, firstvisit, secondvisit, v, equation) => {
         equation: equation
     };
 };
+
+export default knapSack;
