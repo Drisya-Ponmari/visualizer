@@ -12,11 +12,29 @@ import "../../Utils/Font.css"
 import "../../Utils/Button.css"
 import "../../Utils/ControlBar.css"
 
+/**
+ * @component IntegralKnapsackVisualizer
+ * @description Class component responsible for the visualisation.
+ */
+class IntegralKnapsackVisualizer extends Component {
 
-export default class IntegralKnapsackVisualizer extends Component {
-
+    /**
+     * @constructor
+     * @param {object} props contains all the data needed to run Integral knapsack algorithm given by user
+     */
     constructor(props) {
+
         super(props);
+        /**
+         * state initialisarion.
+         * matrix - the dp matrix 
+         * weight - weight of items
+         * value - value of items
+         * isRunning - variable to control start and stop visualisation.
+         * Iter - variable keeping tracking of the algorithm step.
+         * equation - DP equation
+         * currentId - Id correspond to pseudocode line.
+         */
         this.state = {
             matrix: intialMatrix([], props.data.numberOfItems, props.data.capacity),
             weight: intialMatrix(props.data.weights, 0, props.data.numberOfItems - 1),
@@ -29,7 +47,10 @@ export default class IntegralKnapsackVisualizer extends Component {
 
     }
     /**
-     * states are updated again when new props arrives
+     * @function
+     * @param {object} props 
+     * @description ReactJS **lifecycle method** , whenever the props given to *IntegralKnapsackVisualizer* class component changes ,this method is called,
+     * And hence the state of the class is reinitialized.
      */
     componentWillReceiveProps(props) {
         this.setState({
@@ -46,30 +67,41 @@ export default class IntegralKnapsackVisualizer extends Component {
     }
 
     /**
-     * pause button
+     * @function
+     * @event
+     * @description Pausing the visualisation. 
      */
     handlePause() {
         console.log("paused")
+        /**
+         * set isRunning variable to false
+         */
         this.setState(prevState => ({
             isRunning: false
         }))
     }
 
     /**
-     * play button
+     * @function
+     * @event
+     * @description Resuming the visualisation
      */
     handlePlay() {
         console.log("played")
+        /**
+         * set isRunning to true
+         */
         this.setState(prevState => ({
             isRunning: true
         }))
     }
 
     /**
-    * function calls the Integral knapsack algorithm and return the array of objects
-    * which has all the history about the updation of each cell in the matrix.
-    * And then calls the function that animate the algorithm.
-    */
+     * @function
+     * @description function calls the Integral knapsack algorithm and return the array of objects
+     * which has all the history about the updation of each cell in the matrix.
+     * And then calls the function that animate the algorithm.
+     */
     visualize() {
 
         let temp = this.state.matrix;
@@ -81,7 +113,10 @@ export default class IntegralKnapsackVisualizer extends Component {
     }
 
 
-    /**Function to check rows and colun index of two cell a and be not the same*/
+    /**
+     * @function
+     * @description Helper Function to check rows and colun index of two cell a and be not the same
+     * */
     isNotEqual(a, b) {
         if (a === null || b === null)
             return true;
@@ -91,7 +126,8 @@ export default class IntegralKnapsackVisualizer extends Component {
     }
 
     /**
-     * Funtion to color the updating , visiting cells
+     * @function
+     * @description Funtion to color the updating , visiting cells
      */
     doColor(cell) {
 
@@ -112,7 +148,8 @@ export default class IntegralKnapsackVisualizer extends Component {
     }
 
     /**
-     *Function to remove the color previusly updated cell
+     *@function
+     *@description Function to remove the color previusly updated cell
      */
     deColor(cell, prevcell, currentBlock) {
 
@@ -132,12 +169,20 @@ export default class IntegralKnapsackVisualizer extends Component {
 
         return [temp, vtemp];
     }
+
     /**
-     * Animation stops when we showed all the updated cell or after clicking pause button
+     * @function
+     * @description React JS **lifecycle** method which is invoked when a component gets unmounted.
+     * overriding to clear Setinterval id .
      */
     componentWillUnmount() {
         clearInterval(this.interval)
     }
+    /**
+     * @function
+     * @description React JS **lifecycle** method which is invoked when a component gets mounted.
+     * override to resume the visualisation
+     */
     componentWillMount() {
         /**
         * updating the state matrix role , according to the block from the visited array.
@@ -181,6 +226,11 @@ export default class IntegralKnapsackVisualizer extends Component {
         }, 1000);
     }
 
+    /**
+     * @function
+     * @description ReactJS **lifecycle method** renders the DP matrix, play & pause button , problem statement & pseudocode on UI.
+     * 
+     */
     render() {
         return (
             <section>
@@ -218,10 +268,12 @@ export default class IntegralKnapsackVisualizer extends Component {
 }
 
 /**
- * matrix is initialised . Used for value array, matrix array and weight array.
- * @param {Integer array} val 
- * @param {Integer} Row 
- * @param {Integer} Col 
+ * @function
+ * @description Helper function. matrix is initialised . Used for value array, matrix array and weight array.
+ * @param {Array<integer>} val 
+ * @param {integer} Row row of matrix
+ * @param {integer} Col column of matrix
+ * @see IntegralKnapsackVisualizer
  */
 const intialMatrix = (val, Row, Col) => {
 
@@ -240,8 +292,10 @@ const intialMatrix = (val, Row, Col) => {
 }
 
 /**
- * Block of each matrix is created.
- * @param {Integer} value 
+ * @function
+ * @param {integer} value  value of a matrix block
+ * @description Block of each matrix is created.
+ * @see IntegralKnapsackVisualizer
  */
 const block = (value) => {
 
@@ -250,3 +304,5 @@ const block = (value) => {
         role: "stay"
     };
 };
+
+export default IntegralKnapsackVisualizer;
