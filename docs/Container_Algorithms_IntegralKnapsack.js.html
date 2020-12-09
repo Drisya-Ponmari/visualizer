@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Container/Algorithms/IntegralKnapsack.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Container/Algorithms/IntegralKnapsack.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @author Drisya P
+ * @since 2020.11.12
+ */
+
+/** 
+ * @function 
+ * @param {integer} n Total number of items availabe
+ * @param {integer} W Capacity of the knapsack
+ * @param {Array&lt;integer>} w Weight of the each items
+ * @param {Array&lt;integer>}  v value of the each items
+ * 
+ * @description This function finds the dp matrix for the given input.
+ * 
+ * @returns  Array of object which include,
+ * value of the current updated cell,
+ * row and column of cell updated and visited,
+ * value of the item included,
+ * current dp equation. This will give the overall information of how algorithm is executed.
+*/
+function knapSack(n, W, w, v) {
+
+    let visited = [];
+    let dp = [];
+    let equation = null;
+    let Id = []
+
+    console.log(w)
+    /**Initializing the dp matrix */
+    for (let i = 0; i &lt;= n; i++) {
+        dp[i] = []
+        for (let j = 0; j &lt;= W; j++) {
+            dp[i][j] = 0
+        }
+    }
+
+    /**Knapsack algorithm 
+     *visited is updated by pushing the neccessary info whenever one cell is updated.
+    */
+    for (let i = 0; i &lt;= n; i++) {
+        for (let j = 0; j &lt;= W; j++) {
+            /**Base condition */
+            if (i === 0 || j === 0) {
+
+                dp[i][j] = 0;
+                equation = "opt [" + i + "][" + j + "] = 0";
+                visited.push(createCell(dp[i][j], [i, j], null, null, null, equation));
+                Id.push([4, 5])
+            }
+            /** Item can be fitted in the sack. Take the optimal from the previous and new.*/
+            else if (w[i - 1] &lt;= j) {
+
+                dp[i][j] = Math.max(v[i - 1] + dp[i - 1][j - w[i - 1]], dp[i - 1][j]);
+                Id.push([6, 7])
+                equation = "opt[" + i + "][" + j + "]  =  max( p(O" + (i) + ") + opt[" + (i - 1) + "][ " + j + "- w(O" + (i) + ") ], opt[" + (i - 1) + "][" + j + "] )";
+
+                if (v[i - 1] + dp[i - 1][j - w[i - 1]] > dp[i - 1][j]) {
+                    visited.push(createCell(dp[i][j], [i, j], [i - 1, j - w[i - 1]], [i - 1, j], [i - 1, "visit"], equation))
+                }
+                else {
+                    visited.push(createCell(dp[i][j], [i, j], [i - 1, j], [i - 1, j - w[i - 1]], [i - 1, "visit-min"], equation));
+                }
+
+            }
+            /**Item can't be fitted in the sack. Choose the older options */
+            else {
+                Id.push([8, 9])
+                dp[i][j] = dp[i - 1][j];
+                equation = "opt[" + i + "][" + j + "]  =  opt[" + (i - 1) + "][" + j + "]";
+                visited.push(createCell(dp[i][j], [i, j], [i - 1, j], null, null, equation));
+            }
+            console.log(dp[i][j])
+        }
+    }
+
+    Id.push([12])
+    equation = "return opt [ " + n + "][" + W + "]";
+    visited.push(createCell(dp[n][W], [n, W], null, null, null, equation));
+    return [visited, Id];
+}
+
+/**
+ * @function 
+ * @param {integer} value   value after updation of the current cell
+ * @param {Array&lt;integer>} update info (row, col) of the current cell
+ * @param {Array&lt;integer>} visit info of the visited cell
+ * @param {integer} v index of the value for the item added and the css class.
+ * @param {string} equation equation used for the current step
+ * 
+ * @description makes the object by wrapping up the input paramenters.Helper function to knapsack 
+ * @see knapSack
+ * @returns obect of the passed parameters.
+ */
+const createCell = (value, update, firstvisit, secondvisit, v, equation) => {
+    return {
+        value: value,
+        update: update,
+        firstVisit: firstvisit,
+        secondVisit: secondvisit,
+        vindex: v,
+        equation: equation
+    };
+};
+
+export default knapSack;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Block.html">Block</a></li><li><a href="Footer.html">Footer</a></li><li><a href="Header.html">Header</a></li><li><a href="IntegralKnapSackInput.html">IntegralKnapSackInput</a></li><li><a href="IntegralKnapSackProblem.html">IntegralKnapSackProblem</a></li><li><a href="IntegralKnapsackVisualizer.html">IntegralKnapsackVisualizer</a></li><li><a href="Main.html">Main</a></li><li><a href="Matrix.html">Matrix</a></li></ul><h3>Events</h3><ul><li><a href="IntegralKnapSackInput.html#event:handleChange">handleChange</a></li><li><a href="IntegralKnapSackInput.html#event:handleSubmit">handleSubmit</a></li><li><a href="IntegralKnapsackVisualizer.html#event:handlePause">handlePause</a></li><li><a href="IntegralKnapsackVisualizer.html#event:handlePlay">handlePlay</a></li></ul><h3>Global</h3><ul><li><a href="global.html#block">block</a></li><li><a href="global.html#createCell">createCell</a></li><li><a href="global.html#intialMatrix">intialMatrix</a></li><li><a href="global.html#knapSack">knapSack</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Wed Dec 09 2020 21:25:54 GMT+0530 (India Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

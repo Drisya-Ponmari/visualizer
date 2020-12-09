@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Container/Input/IntegralKnapSackInput.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Container/Input/IntegralKnapSackInput.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>
+/**
+ * @author Drisya P
+ */
+import React, { Component } from "react";
+import "../../Utils/Button.css"
+import "../../Utils/Label.css"
+
+/**
+ * @component IntegralKnapSackInput
+ * @description Class component that takes care of Integral KnapSack algorithm input
+ * constructor receives props from the parent component
+ * sets intial states needed for IN(Integral Knapsack) algorithm and binds event handlers.
+ * @listens props.func
+ */
+class IntegralKnapSackInput extends Component {
+
+    /**
+     * @constructor 
+     * @param {function} props Contains a function (which helps to start visualisation) that is called when the input form is submitted.
+     */
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            values: null,
+            weights: null,
+            Capcity: null
+        }
+        this.handleChange = this.handleChange.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
+    }
+
+
+    /**
+     * @function
+     * @event 
+     * @param {object} contains details (value, name etc )about an input field
+     * @description Whenever we change an input field , corresponding state of that entity changes.
+     */
+    handleChange(event) {
+
+        const { name, value } = event.target
+        this.setState({ [name]: value });
+    }
+
+
+    /**
+     * @function
+     * @description Function to preprocess the input given by User. For Integral Knapsack inputs are given by comman seperated.
+     * This function split the input and make it in to array. And all the input is wrapped in to an object called 'data'
+     */
+    inputPreProcess() {
+
+        /**
+         * Extracting input values
+         */
+        let temp_values = this.state.values.split(',');
+        let temp_weights = this.state.weights.split(',');
+        const values = temp_values.map((num) => { return Number(num) });
+        const weights = temp_weights.map((num) => { return Number(num) });
+        const number = values.length;
+        const capacity = Number(this.state.Capacity)
+
+        /**
+         * Wrapping up weight, value, capacity of knapsack in to an object.
+         */
+        const data = {
+            values: values,
+            weights: weights,
+            numberOfItems: number,
+            capacity: capacity
+        }
+        return data;
+    }
+
+    /**
+     * @function
+     * @event
+     * @param {object} event All information about the input field
+     * @description function 'inputPreProcess' is called when the input form is submitted and later a function in Main component
+     * is called 
+     * @see Main#handleChange
+     */
+    handleSubmit(event) {
+
+        this.props.func(true, this.inputPreProcess())
+        event.preventDefault();
+    }
+
+    /**
+     * @function
+     * @description ReactJS **Lifecycle Method** helps to render the Input form in the UI.
+     */
+    render() {
+
+        return (
+            &lt;div>
+                &lt;form onSubmit={this.handleSubmit}>
+                    &lt;label className="label input">profit array&lt;/label>
+                    &lt;input type="text"
+                        name="values"
+                        value={this.state.values}
+                        onChange={this.handleChange}
+                    />
+
+                    &lt;label className="label input" >weight array&lt;/label>
+                    &lt;input type="text"
+                        name="weights"
+                        value={this.state.weights}
+                        onChange={this.handleChange}
+                    />
+                    &lt;label className="label input" >capacity array &lt;/label>
+                    &lt;input type="text"
+                        name="Capacity"
+                        value={this.state.Capcity}
+                        onChange={this.handleChange}
+                    />
+                    &lt;button className="button submit"> Submit&lt;/button>
+                &lt;/form>
+            &lt;/div>
+        )
+    }
+}
+
+export default IntegralKnapSackInput;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Block.html">Block</a></li><li><a href="Footer.html">Footer</a></li><li><a href="Header.html">Header</a></li><li><a href="IntegralKnapSackInput.html">IntegralKnapSackInput</a></li><li><a href="IntegralKnapSackProblem.html">IntegralKnapSackProblem</a></li><li><a href="IntegralKnapsackVisualizer.html">IntegralKnapsackVisualizer</a></li><li><a href="Main.html">Main</a></li><li><a href="Matrix.html">Matrix</a></li></ul><h3>Events</h3><ul><li><a href="IntegralKnapSackInput.html#event:handleChange">handleChange</a></li><li><a href="IntegralKnapSackInput.html#event:handleSubmit">handleSubmit</a></li><li><a href="IntegralKnapsackVisualizer.html#event:handlePause">handlePause</a></li><li><a href="IntegralKnapsackVisualizer.html#event:handlePlay">handlePlay</a></li></ul><h3>Global</h3><ul><li><a href="global.html#block">block</a></li><li><a href="global.html#createCell">createCell</a></li><li><a href="global.html#intialMatrix">intialMatrix</a></li><li><a href="global.html#knapSack">knapSack</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Wed Dec 09 2020 21:25:54 GMT+0530 (India Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
