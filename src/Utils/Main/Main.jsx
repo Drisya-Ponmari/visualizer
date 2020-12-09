@@ -1,15 +1,27 @@
+/**
+ * @author Drisya P
+ */
 import React, { Component } from "react"
 import "./Main.css"
 import Header from '../Header/Header'
 import Footer from "../Footer/Footer"
-
-export default class Main extends Component {
+/**
+ * @component
+ * @description receives props from App.js which has
+ * details about the algorithm to be visualized.
+ */
+class Main extends Component {
   /**
-   * receives props from the App.js 
-   * @param {object} props 
+   * @constructor
+   * @param {object} props contains algorithms, visualizer and Inpur form
+   * class components 
    */
   constructor(props) {
     super(props)
+    /**
+     * isClicked - to check whether input is submitted by the user.
+     * data - user input data
+     */
     this.state = {
       isClicked: false,
       data: null
@@ -18,7 +30,8 @@ export default class Main extends Component {
   }
 
   /**
-   * visualisation starts by returning the jsx element from the corresponding algorithm passed via props
+   * @function
+   * @description visualisation starts by returning the jsx element from the corresponding algorithm passed via props
    */
   startvisualise() {
     const Visualizer = this.props.Visualizer;
@@ -28,12 +41,15 @@ export default class Main extends Component {
   }
 
   /**
-   * this function is called from the input form class of the algorithm,
+   * @function
+   * @description function is called from the input form class of the algorithm,
    * After the Input variables are given
    * @param {boolean} isClicked 
    * @param {object} data 
+   * @see IntegralKnapSackInput#handleSubmit
    */
   handleChange(isClicked, data) {
+
     this.setState(prevState => {
       return {
         isClicked: isClicked,
@@ -43,11 +59,15 @@ export default class Main extends Component {
     console.log("handlechange in main called")
   }
 
+  /**
+   * @function
+   * @description **lifecyle method** that take care of all layout showing on UI.
+   */
   render() {
     const Visualizer = this.props.Visualizer;
     const Input = this.props.Input;
-    const f = this.state.data;
-    const g = this.state.isClicked;
+    const data = this.state.data;
+    const isClicked = this.state.isClicked;
     return (
       <body>
         <Header title={this.props.title} />
@@ -55,10 +75,12 @@ export default class Main extends Component {
           <Input func={this.handleChange} />
         </nav>
         <section>
-          {g ? <Visualizer data={f} /> : ''}
+          {isClicked ? <Visualizer data={data} /> : ''}
         </section>
         <Footer />
       </body>
     )
   }
 }
+
+export default Main;

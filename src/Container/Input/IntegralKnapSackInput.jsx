@@ -78,7 +78,9 @@ class IntegralKnapSackInput extends Component {
      * @function
      * @event
      * @param {object} event All information about the input field
-     * @description function 'inputPreProcess' is called when the input form is submitted.
+     * @description function 'inputPreProcess' is called when the input form is submitted and later a function in Main component
+     * is called 
+     * @see Main#handleChange
      */
     handleSubmit(event) {
 
