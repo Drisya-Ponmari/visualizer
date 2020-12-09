@@ -7,10 +7,14 @@ import Block from "./Block/Block"
 import "../Utils/Label.css"
 
 /**
- * Function returns the jsx element to show the dp matrix, which is represented as table component.
+ * @component
+ * @description Function returns the jsx element to show the dp matrix, which is represented as table component.
  * @param {object} props  contains the two D array of objects to be rendered
+ * 
+ * @returs JSX code to show matrix on UI 
+ * @see IntegralKnapsackVisualizer#render
  */
-export default function Matrix(props) {
+function Matrix(props) {
     // console.log(props)
     return (
         <div>
@@ -35,4 +39,6 @@ export default function Matrix(props) {
         </div>
 
     );
-} 
+}
+
+export default Matrix;

@@ -4,13 +4,16 @@
 import React from 'react';
 import './Block.css';
 /**
- * function return a block in the matrix , with appropriate color and 
+ * @component 
+ * @description functional component  return a block in the matrix , with appropriate color and 
  * value in it
- * @param {string} props 
+ * @param {object} props contains the value and state (updated/visited) of the block
+ * @returns JSX code to show colored block in matrix.
+ * @see Matrix
  */
-export default function Block(props) {
+function Block(props) {
     /**
-     * Select the color of the block , by selecting the corresponding class 
+     * Select the color of the block , by selecting the corresponding role 
      * from the prop
      */
     const extraClassName = props.role === "stay"
@@ -26,3 +29,5 @@ export default function Block(props) {
         {props.value}
     </div>);
 }
+
+export default Block;
