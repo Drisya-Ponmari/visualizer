@@ -4,7 +4,7 @@
  */
 
 /** 
- * @function knapSack
+ * @class knapSack
  * @param {integer} n Total number of items availabe
  * @param {integer} W Capacity of the knapsack
  * @param {Array<integer>} w Weight of the each items
@@ -78,7 +78,7 @@ export default function knapSack(n, W, w, v) {
 }
 
 /**
- * @component dlkf
+ * @component function
  * @param {integer} value   value after updation of the current cell
  * @param {Array<integer>} update info (row, col) of the current cell
  * @param {Array<integer>} visit info of the visited cell

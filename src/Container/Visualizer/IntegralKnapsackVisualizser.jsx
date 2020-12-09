@@ -6,7 +6,7 @@
 import React, { Component } from "react";
 import Matrix from "../../Components/Matrix";
 import IntegralKnapsack from "../Algorithms/IntegralKnapsack";
-import Problem from "../../Problems/IntegralKnapSackProblem"
+import IntegralKnapSackProblem from "../../Problems/IntegralKnapSackProblem"
 import "../../Utils/Main/Main.css"
 import "../../Utils/Font.css"
 import "../../Utils/Button.css"
@@ -208,7 +208,7 @@ export default class IntegralKnapsackVisualizer extends Component {
                     <p className="equation">{this.state.equation}</p>
                 </div>
                 <div className="desc">
-                    <Problem id={this.state.currentId} />
+                    <IntegralKnapSackProblem id={this.state.currentId} />
                 </div>
 
             </section>
