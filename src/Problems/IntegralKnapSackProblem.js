@@ -3,12 +3,12 @@
  */
 import "../Utils/Font.css"
 /**
- * @class IntegralKnapSack 
+ * @component IntegralKnapSackProblem 
  * @description Functional component for showing the problem statement and psuedo code of Integral Knapsack
  * @param {object} props includes line 'id' of the psuedo code to be highlighted
  * @returns corresponding jsx code to show problem statement and psuedocode with the current step highlighted
  * */
-export default function IntegralKnapSackProblem(props) {
+function IntegralKnapSackProblem(props) {
 
     console.log(props)
     if (props.id !== null) {
@@ -41,3 +41,5 @@ export default function IntegralKnapSackProblem(props) {
         </div>
     )
 }
+
+export default IntegralKnapSackProblem;
