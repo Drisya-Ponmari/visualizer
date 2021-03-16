@@ -3,7 +3,7 @@
  */
 import "../Utils/Font.css"
 /**
- * @component IntegralKnapSackProblem 
+ * @component IntegralKnapSakProblem 
  * @description Functional component for showing the problem statement and psuedo code of Integral Knapsack
  * @param {object} props includes line 'id' of the psuedo code to be highlighted
  * @returns corresponding jsx code to show problem statement and psuedocode with the current step highlighted
