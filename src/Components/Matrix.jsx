@@ -19,6 +19,7 @@ function Matrix(props) {
     return (
         <div>
             <label className={props.labeclassname}>{props.title}</label>
+            <p className="description"> {props.description}</p>
             <table>
                 <tbody>
                     {

@@ -95,7 +95,7 @@ class IntegralKnapSackInput extends Component {
     render() {
 
         return (
-            <div>
+            <div style={{ textAlign: 'center' }} >
                 <form onSubmit={this.handleSubmit}>
                     <label className="label input">profit array</label>
                     <input type="text"
@@ -110,7 +110,7 @@ class IntegralKnapSackInput extends Component {
                         value={this.state.weights}
                         onChange={this.handleChange}
                     />
-                    <label className="label input" >capacity array </label>
+                    <label className="label input" >Knapsack capacity </label>
                     <input type="text"
                         name="Capacity"
                         value={this.state.Capcity}

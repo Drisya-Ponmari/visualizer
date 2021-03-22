@@ -22,3 +22,9 @@
 
     font-size: 20px;
 }
+
+.description{
+    font-style: italic;
+    font-size: 17px;
+    color: green;
+}

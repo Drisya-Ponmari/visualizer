@@ -12,10 +12,15 @@ function IntegralKnapSackProblem(props) {
 
     console.log(props)
     if (props.id !== null) {
-        for (let i = 1; i < 14; i++)
-            document.getElementById(i).className = ""
-        for (let i = 0; i < props.id.length; i++)
-            document.getElementById(props.id[i]).className = "highlight"
+        for (let i = 1; i < 14; i++) {
+            if (document.getElementById(i) != null)
+                document.getElementById(i).className = ""
+        }
+
+        for (let i = 0; i < props.id.length; i++) {
+            if (document.getElementById(props.id[i]) != null)
+                document.getElementById(props.id[i]).className = "highlight"
+        }
     }
     return (
         <div>

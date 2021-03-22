@@ -11,7 +11,8 @@ import "../../Utils/Main/Main.css"
 import "../../Utils/Font.css"
 import "../../Utils/Button.css"
 import "../../Utils/ControlBar.css"
-
+//import IntegralKnapSackSubprob from "../Subprobs/IntegralKnapSackSubprob"
+import Subproblem from "../../Components/IntegralKnapSack/Subproblem"
 /**
  * @component IntegralKnapsackVisualizer
  * @description Class component responsible for the visualisation.
@@ -43,6 +44,9 @@ class IntegralKnapsackVisualizer extends Component {
             Iter: 0,
             equation: null,
             currentId: null,
+            isChange: false,
+            len: 1,
+            subprobs: []
         }
 
     }
@@ -61,7 +65,10 @@ class IntegralKnapsackVisualizer extends Component {
             isRunning: false,
             Iter: 0,
             equation: null,
-            currentId: null
+            currentId: null,
+            isChange: false,
+            len: 1,
+            subprobs: []
         })
 
     }
@@ -96,6 +103,13 @@ class IntegralKnapsackVisualizer extends Component {
         }))
     }
 
+    handleAlgo() {
+        console.log("algo clicked");
+
+        this.setState(prevState => ({
+            isChange: !this.state.isChange
+        }))
+    }
     /**
      * @function
      * @description function calls the Integral knapsack algorithm and return the array of objects
@@ -108,9 +122,13 @@ class IntegralKnapsackVisualizer extends Component {
         const allSteps = IntegralKnapsack(this.props.data.numberOfItems, this.props.data.capacity, this.props.data.weights, this.props.data.values);
         this.visited = allSteps[0];
         this.Id = allSteps[1];
+        this.state.subprobs = allSteps[2];
+        this.state.len = this.visited.length;
         // console.log("result from integral Knapsack algorithm" + visited);
         this.handlePlay();
+
     }
+
 
 
     /**
@@ -169,7 +187,11 @@ class IntegralKnapsackVisualizer extends Component {
 
         return [temp, vtemp];
     }
-
+    checkBound() {
+        if (this.state.Iter >= this.state.len)
+            return true;
+        return false;
+    }
     /**
      * @function
      * @description React JS **lifecycle** method which is invoked when a component gets unmounted.
@@ -188,7 +210,7 @@ class IntegralKnapsackVisualizer extends Component {
         * updating the state matrix role , according to the block from the visited array.
         * And also revert the previous assigning of the block role.
         */
-
+        //    if( this.state.Iter >= this.visited.length)
         this.interval = setInterval(() => {
             if (this.state.isRunning && this.state.Iter < this.visited.length) {
 
@@ -232,14 +254,23 @@ class IntegralKnapsackVisualizer extends Component {
      * 
      */
     render() {
+        const isChange = this.state.isChange;
+        const id = this.state.currentId;
+        const buttonShow = this.checkBound();
+        const ButtonName = isChange ? "Algorithm" : "Sub Problem";
+        const data = this.state.subprobs;
+        console.log("buttonshow", buttonShow);
+        console.log(id);
         return (
             <section>
+
                 <div className="visual">
                     <Matrix
                         matrix={this.state.matrix}
                         label={true}
                         title="DP table"
                         labeclassname="label heading"
+                        description=" DP[i][j] represents the maximum profit achievable using a knapsack of capacity 'j' and objects 'o1, ...oi'. Pink colour for updation, green and red for the visited cell where green represents for minimum and red for the maximum profit cell"
                     />
                     <br />
                     <Matrix
@@ -247,6 +278,7 @@ class IntegralKnapsackVisualizer extends Component {
                         label={false}
                         title="profits"
                         labeclassname="label subheading"
+                        description=""
                     />
                     <br />
 
@@ -254,11 +286,12 @@ class IntegralKnapsackVisualizer extends Component {
                     <div className="control-bar">
                         <button className="button play" onClick={() => this.handlePlay()}>Resume</button>
                         <button className="button pause" onClick={() => this.handlePause()}>Pause</button>
+                        {buttonShow ? <button className="button pause" onClick={() => this.handleAlgo()}>{ButtonName}</button> : ''}
                     </div>
-                    <p className="equation">{this.state.equation}</p>
                 </div>
                 <div className="desc">
-                    <IntegralKnapSackProblem id={this.state.currentId} />
+                    <p className="equation">Updating equation : {this.state.equation}</p>
+                    {isChange ? <Subproblem data={data} /> : <IntegralKnapSackProblem id={id} />}
                 </div>
 
             </section>

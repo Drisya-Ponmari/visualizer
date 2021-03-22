@@ -5,6 +5,7 @@ import React, { Component } from "react"
 import "./Main.css"
 import Header from '../Header/Header'
 import Footer from "../Footer/Footer"
+
 /**
  * @component
  * @description receives props from App.js which has
@@ -69,6 +70,7 @@ class Main extends Component {
     const data = this.state.data;
     const isClicked = this.state.isClicked;
     return (
+
       <body>
         <Header title={this.props.title} />
         <nav>
@@ -79,6 +81,8 @@ class Main extends Component {
         </section>
         <Footer />
       </body>
+
+
     )
   }
 }
