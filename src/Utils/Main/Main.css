@@ -16,6 +16,7 @@ nav {
 section{
     display: -webkit-flex;
     display: flex;
+    margin-left:  20px;
 }
 
  /* Style the navigation menu */

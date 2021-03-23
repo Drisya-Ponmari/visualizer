@@ -5,7 +5,7 @@ function fractionalKnapSack(n, W, w, v) {
     let visited = [];
     let valbywt = [];
     for (let i = 0; i < n; i++) {
-        valbywt.push([(v[i] / w[i]).toPrecision(3), i]);
+        valbywt.push([(v[i] / w[i]), i]);
     }
 
     valbywt.sort(function (a, b) {
@@ -16,34 +16,35 @@ function fractionalKnapSack(n, W, w, v) {
         index.push(valbywt[i][1]);
     }
 
-    let currWt = 0, currVal = 0;
+    let weightArray = [], valueArray = [], ind = [], equation = [], Id = [];
     for (let i = n - 1; i >= 0; i--) {
 
         let j = index[i];
         if (W - w[j] >= 0) {
-            currWt += w[j];
-            currVal += v[j];
             W = W - w[j];
-            visited.push(createCell(v[j], w[j], j, "", 0));
+            if (v[j] != 0) {
+                weightArray.push(w[j]);
+                valueArray.push(v[j]);
+                ind.push(j);
+                equation.push("hello/\n world");
+                Id.push(1);
+            }
         } else {
-            let fraction = (W / w[j]).toPrecision(3);
-            currVal += (v[j] * fraction);
-            currWt += (w[j] * fraction);
-            W = W - (w[j] * fraction);
-            visited.push(createCell(v[j] * fraction, w[j] * fraction, j, "", 0))
+            let fraction = (W / w[j]);
+            let val = (v[j] * fraction);
+            let wt = (w[j] * fraction);
+            W = W - wt;
+            if (val != 0) {
+                weightArray.push(wt);
+                valueArray.push(val);
+                ind.push(j);
+                equation.push("");
+                Id.push(1);
+
+            }
         }
     }
-    return visited;
+    return [weightArray, valueArray, ind, equation, Id];
 }
-
-const createCell = (value, weight, index, equation, Id) => {
-    return {
-        value: value,
-        weight: weight,
-        index: index,
-        equation: equation,
-        Id: Id
-    };
-};
 
 export default fractionalKnapSack;

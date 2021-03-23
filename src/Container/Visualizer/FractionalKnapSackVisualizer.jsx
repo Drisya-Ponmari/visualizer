@@ -1,11 +1,13 @@
 
 import React, { Component } from 'react';
 import FractionalKnapSack from '../Algorithms/FractionalKnapSack'
+import FractionalKnapSackProblem from "../../Problems/FractionalKnapSackProblem"
 import "../../Utils/Main/Main.css"
 import "../../Utils/Font.css"
 import "../../Utils/Button.css"
 import "../../Utils/ControlBar.css"
 import Matrix from "../../Components/Matrix";
+import Box from "../../Components/Box/Box"
 
 class IntegralKnapsackVisualizer extends Component {
     constructor(props) {
@@ -18,7 +20,13 @@ class IntegralKnapsackVisualizer extends Component {
             Iter: 0,
             equation: null,
             currentId: null,
-            isChange: false,
+            weightArray: [],
+            valueArray: [],
+            index: [],
+            color: [],
+            item: 0,
+            currentWt: "",
+            currentVal: "",
 
         }
 
@@ -38,7 +46,14 @@ class IntegralKnapsackVisualizer extends Component {
             Iter: 0,
             equation: null,
             currentId: null,
-            isChange: false,
+            weightArray: [],
+            valueArray: [],
+            index: [],
+            color: [],
+            item: 0,
+            currentWt: "",
+            currentVal: "",
+
         })
 
     }
@@ -84,7 +99,24 @@ class IntegralKnapsackVisualizer extends Component {
     visualize() {
 
         const allSteps = FractionalKnapSack(this.props.data.numberOfItems, this.props.data.capacity, this.props.data.weights, this.props.data.values);
-        this.visited = allSteps;
+        this.equationArray = allSteps[3];
+        this.IdArray = allSteps[4];
+        this.setState(prevState => ({
+            weightArray: allSteps[0],
+            valueArray: allSteps[1],
+            index: allSteps[2],
+        }))
+        let n = allSteps[0].length;
+        let color = [];
+        for (let i = 0; i < n; i++) {
+            var letters = '0123456789ABCDEF';
+            var c = '#';
+            for (var j = 0; j < 6; j++) {
+                c += letters[Math.floor(Math.random() * 16)];
+            }
+            color.push(c);
+        }
+        this.state.color = color;
         this.handlePlay();
 
     }
@@ -95,12 +127,12 @@ class IntegralKnapsackVisualizer extends Component {
      * @function
      * @description Funtion to color the updating , visiting cells
      */
-    doColor(cell) {
+    doColor(i) {
 
         let vtemp = this.state.value;
         let wtemp = this.state.weight;
-        vtemp[0][cell.index].role = 'update';
-        wtemp[0][cell.index].role = 'update';
+        vtemp[0][i].role = 'update';
+        wtemp[0][i].role = 'update';
         return [vtemp, wtemp];
     }
 
@@ -108,14 +140,14 @@ class IntegralKnapsackVisualizer extends Component {
      *@function
      *@description Function to remove the color previusly updated cell
      */
-    deColor(cell, prevcell) {
+    deColor(i, previ) {
 
         let vtemp = this.state.value;
         let wtemp = this.state.weight;
 
-        if (cell.index !== prevcell.index) {
-            vtemp[0][prevcell.index].role = 'stay';
-            wtemp[0][prevcell.index].role = 'stay';
+        if (i !== previ) {
+            vtemp[0][previ].role = 'stay';
+            wtemp[0][previ].role = 'stay';
 
         }
         return [vtemp, wtemp];
@@ -143,30 +175,32 @@ class IntegralKnapsackVisualizer extends Component {
         * updating the state matrix role , according to the block from the visited array.
         * And also revert the previous assigning of the block role.
         */
-        console.log("hey");
         this.interval = setInterval(() => {
-            if (this.state.isRunning && this.state.Iter < this.visited.length) {
+            if (this.state.isRunning && this.state.Iter < this.state.index.length) {
 
                 const i = this.state.Iter;
-                const cell = this.visited[i];
+                const position = this.state.index[i];
                 /**
                  * current showing cell by coloring
                  */
 
-                const currentBlock = this.doColor(cell)
+                const currentBlock = this.doColor(position)
                 this.setState(prevState => ({
                     value: currentBlock[0],
                     weight: currentBlock[1],
-                    equation: cell.equation,
-                    currentId: cell.Id
+                    equation: "",
+                    currentId: "",
+                    item: position,
+                    currentWt: this.state.weightArray[i],
+                    currentVal: this.state.valueArray[i],
                 }))
 
                 /**
                  * previous showing cell, decoloring it
                  */
                 if (i !== 0) {
-                    const prevcell = this.visited[i - 1];
-                    const prevBlock = this.deColor(cell, prevcell)
+                    const prevposition = this.state.index[i - 1];
+                    const prevBlock = this.deColor(position, prevposition)
                     this.setState(prevState => ({
                         value: prevBlock[0],
                         weight: prevBlock[1],
@@ -179,7 +213,7 @@ class IntegralKnapsackVisualizer extends Component {
                     Iter: prevState.Iter + 1
                 }))
             }
-        }, 1000);
+        }, 3000);
     }
 
     /**
@@ -188,10 +222,24 @@ class IntegralKnapsackVisualizer extends Component {
      * 
      */
     render() {
-        const isChange = this.state.isChange;
         const id = this.state.currentId;
+        const wt = (this.state.weightArray.slice(0, this.state.Iter));
+        const val = (this.state.valueArray.slice(0, this.state.Iter));
+        const col = (this.state.color.slice(0, this.state.Iter));
+        const Wt = this.state.currentVal;
+
         return (
             <section>
+                <section>
+                    <div style={{ marginRight: "30px", marginBottom: "30px", marginTop: "30px" }}>
+                        <Box weightArray={wt} valueArray={val} color={col} capacity={this.props.data.capacity} item={this.state.index} /> <br />
+                        <button className="button start" onClick={() => this.visualize()}>Start Visualization</button>
+                        <div className="control-bar">
+                            <button className="button play" onClick={() => this.handlePlay()}>Resume</button>
+                            <button className="button pause" onClick={() => this.handlePause()}>Pause</button>
+                        </div>
+                    </div>
+                </section>
                 <div className="visual">
                     <Matrix
                         matrix={this.state.value}
@@ -200,7 +248,6 @@ class IntegralKnapsackVisualizer extends Component {
                         labeclassname="label subheading"
                         description=""
                     />
-                    <br />
                     <Matrix
                         matrix={this.state.weight}
                         label={false}
@@ -208,16 +255,18 @@ class IntegralKnapsackVisualizer extends Component {
                         labeclassname="label subheading"
                         description=""
                     />
-                    <button className="button start" onClick={() => this.visualize()}>Start Visualization</button>
-                    <div className="control-bar">
-                        <button className="button play" onClick={() => this.handlePlay()}>Resume</button>
-                        <button className="button pause" onClick={() => this.handlePause()}>Pause</button>
+
+                    <br />
+                    <div className="desc">
+                        <p className="equation">Updating equation     {"\n"}: {this.state.equation}</p>
+                        <p className="equation">Item value : {this.state.currentVal}</p>
+                        <p className="equation">Item weight: {Wt}</p>
                     </div>
+                    <br />
+
                 </div>
                 <section>
-                    <div className="desc">
-                        <p className="equation">Updating equation : {this.state.equation}</p>
-                    </div>
+                    <FractionalKnapSackProblem id={[2]} />
                 </section>
 
             </section>
