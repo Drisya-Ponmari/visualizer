@@ -104,13 +104,7 @@ class IntegralKnapsackVisualizer extends Component {
         }))
     }
 
-    handleAlgo() {
-        console.log("algo clicked");
 
-        this.setState(prevState => ({
-            isChange: !this.state.isChange
-        }))
-    }
 
     visualize() {
 
@@ -235,7 +229,7 @@ class IntegralKnapsackVisualizer extends Component {
                     currentId: [13]
                 }))
             }
-        }, 4000);
+        }, 2000);
     }
 
     /**

@@ -73,6 +73,7 @@ class Main extends Component {
 
       <body>
         <Header title={this.props.title} />
+
         <nav>
           <Input func={this.handleChange} />
         </nav>

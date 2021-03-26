@@ -25,7 +25,7 @@ function knapSack(n, W, w, v) {
     let equation = null;
     let Id = []
 
-    console.log(w)
+    //console.log(w)
     /**Initializing the dp matrix */
     for (let i = 0; i <= n; i++) {
         dp[i] = []
@@ -69,7 +69,7 @@ function knapSack(n, W, w, v) {
                 equation = "opt[" + i + "][" + j + "]  =  opt[" + (i - 1) + "][" + j + "]";
                 visited.push(createCell(dp[i][j], [i, j], [i - 1, j], null, null, equation));
             }
-            console.log(dp[i][j])
+            //console.log(dp[i][j])
         }
     }
 
@@ -121,7 +121,9 @@ const subProblems = (dp, value, weight, W, n) => {
             flag = 0;
         }
     }
-    data.push([0, 0, 1]);
+
+    if (data[data.length - 1].length == 2)
+        data.push([0, 0, 1]);
     return data;
 }
 export default knapSack;

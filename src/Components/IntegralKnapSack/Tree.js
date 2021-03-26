@@ -39,9 +39,9 @@ export default function Tree(surface, vertices, values) {
     }
     console.log(vertexCoordinates);
     for (i = 1; i <= vertices - 2; i += 2) {
-        var edge = NewEdge(vertexCoordinates[i - 1], vertexCoordinates[i], 'red', true);
+        var edge = NewEdge(vertexCoordinates[i - 1], vertexCoordinates[i], 'black', true);
         group.append(edge);
-        edge = NewEdge(vertexCoordinates[i - 1], vertexCoordinates[i + 1], 'red', true);
+        edge = NewEdge(vertexCoordinates[i - 1], vertexCoordinates[i + 1], 'black', true);
         group.append(edge);
     }
     // Render the group on the surface

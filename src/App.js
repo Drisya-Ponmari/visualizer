@@ -11,7 +11,7 @@ function App() {
   return (
     //n, W, w, v
     <Main
-      Visualizer={FractionalKnapSackVisualizer}
+      Visualizer={IntegralKnapsackVisualizer}
       Input={IntegralKnapSackInput}
       title="Integral Knapsack"
     />

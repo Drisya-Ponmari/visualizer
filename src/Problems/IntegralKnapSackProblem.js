@@ -10,7 +10,7 @@ import "../Utils/Font.css"
  * */
 function IntegralKnapSackProblem(props) {
 
-    console.log(props)
+    //console.log(props)
     if (props.id !== null) {
         for (let i = 1; i < 14; i++) {
             if (document.getElementById(i) != null)

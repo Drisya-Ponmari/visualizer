@@ -110,6 +110,7 @@ class IntegralKnapsackVisualizer extends Component {
             isChange: !this.state.isChange
         }))
     }
+
     /**
      * @function
      * @description function calls the Integral knapsack algorithm and return the array of objects
@@ -245,7 +246,7 @@ class IntegralKnapsackVisualizer extends Component {
                     Iter: prevState.Iter + 1
                 }))
             }
-        }, 1000);
+        }, 100);
     }
 
     /**
@@ -259,8 +260,8 @@ class IntegralKnapsackVisualizer extends Component {
         const buttonShow = this.checkBound();
         const ButtonName = isChange ? "Algorithm" : "Sub Problem";
         const data = this.state.subprobs;
-        console.log("buttonshow", buttonShow);
-        console.log(id);
+        //  console.log("buttonshow", buttonShow);
+        //console.log(id);
         return (
             <section>
 
