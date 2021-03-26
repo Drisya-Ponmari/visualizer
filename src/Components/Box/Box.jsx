@@ -31,13 +31,14 @@ function Main(props) {
         <div >
             <br />
             <label className="label heading">Knapsack</label><br />
-            <div className="description">
+            <div className="label subheading ">
                 capacity :{capacity}
                 <br />
                 totalweight = {filledWeight}
                 <br />
                 totalValue = {filledValue}
             </div>
+            <br />
             <div style={{ marginLeft: '20px' }}>
                 <table style={{ width: '300px', borderCollapse: 'collapse', border: '1px solid black' }}>
                     <tbody>

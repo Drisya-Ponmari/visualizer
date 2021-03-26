@@ -27,7 +27,7 @@ function fractionalKnapSack(n, W, w, v) {
                 valueArray.push(v[j]);
                 ind.push(j);
                 equation.push("hello/\n world");
-                Id.push(1);
+                Id.push([5, 6, 7]);
             }
         } else {
             let fraction = (W / w[j]);
@@ -39,7 +39,7 @@ function fractionalKnapSack(n, W, w, v) {
                 valueArray.push(val);
                 ind.push(j);
                 equation.push("");
-                Id.push(1);
+                Id.push([9, 10, 11]);
 
             }
         }

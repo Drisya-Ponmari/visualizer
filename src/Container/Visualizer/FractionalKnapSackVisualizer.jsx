@@ -19,14 +19,15 @@ class IntegralKnapsackVisualizer extends Component {
             isRunning: false,
             Iter: 0,
             equation: null,
-            currentId: null,
+            currentId: [2],
             weightArray: [],
             valueArray: [],
             index: [],
             color: [],
             item: 0,
-            currentWt: "",
-            currentVal: "",
+            currentWt: 0,
+            currentVal: 0,
+
 
         }
 
@@ -45,14 +46,14 @@ class IntegralKnapsackVisualizer extends Component {
             isRunning: false,
             Iter: 0,
             equation: null,
-            currentId: null,
+            currentId: [2],
             weightArray: [],
             valueArray: [],
             index: [],
             color: [],
             item: 0,
-            currentWt: "",
-            currentVal: "",
+            currentWt: 0,
+            currentVal: 0,
 
         })
 
@@ -71,8 +72,23 @@ class IntegralKnapsackVisualizer extends Component {
         this.setState(prevState => ({
             isRunning: false
         }))
+
     }
 
+    handleReset() {
+        console.log("reset");
+
+        this.setState(prevState => ({
+            Iter: 0,
+        }))
+    }
+
+    handleEnd() {
+        console.log("end");
+        this.setState(prevState => ({
+            Iter: this.state.index.length - 1
+        }))
+    }
     /**
      * @function
      * @event
@@ -101,10 +117,12 @@ class IntegralKnapsackVisualizer extends Component {
         const allSteps = FractionalKnapSack(this.props.data.numberOfItems, this.props.data.capacity, this.props.data.weights, this.props.data.values);
         this.equationArray = allSteps[3];
         this.IdArray = allSteps[4];
+        console.log(allSteps[2]);
         this.setState(prevState => ({
             weightArray: allSteps[0],
             valueArray: allSteps[1],
             index: allSteps[2],
+
         }))
         let n = allSteps[0].length;
         let color = [];
@@ -189,10 +207,10 @@ class IntegralKnapsackVisualizer extends Component {
                     value: currentBlock[0],
                     weight: currentBlock[1],
                     equation: "",
-                    currentId: "",
                     item: position,
                     currentWt: this.state.weightArray[i],
                     currentVal: this.state.valueArray[i],
+                    currentId: this.IdArray[i],
                 }))
 
                 /**
@@ -212,8 +230,12 @@ class IntegralKnapsackVisualizer extends Component {
                 this.setState(prevState => ({
                     Iter: prevState.Iter + 1
                 }))
+            } else if (this.state.Iter >= this.state.index.length) {
+                this.setState(prevState => ({
+                    currentId: [13]
+                }))
             }
-        }, 3000);
+        }, 4000);
     }
 
     /**
@@ -222,21 +244,23 @@ class IntegralKnapsackVisualizer extends Component {
      * 
      */
     render() {
-        const id = this.state.currentId;
         const wt = (this.state.weightArray.slice(0, this.state.Iter));
         const val = (this.state.valueArray.slice(0, this.state.Iter));
         const col = (this.state.color.slice(0, this.state.Iter));
-        const Wt = this.state.currentVal;
+
 
         return (
             <section>
                 <section>
                     <div style={{ marginRight: "30px", marginBottom: "30px", marginTop: "30px" }}>
                         <Box weightArray={wt} valueArray={val} color={col} capacity={this.props.data.capacity} item={this.state.index} /> <br />
-                        <button className="button start" onClick={() => this.visualize()}>Start Visualization</button>
+
                         <div className="control-bar">
+                            <button className="button start" onClick={() => this.visualize()}>Start Visualization</button> <br />
                             <button className="button play" onClick={() => this.handlePlay()}>Resume</button>
                             <button className="button pause" onClick={() => this.handlePause()}>Pause</button>
+                            <button className="button play" onClick={() => this.handleReset()}>Reset</button>
+                            <button className="button play" onClick={() => this.handleEnd()}>End</button>
                         </div>
                     </div>
                 </section>
@@ -258,15 +282,16 @@ class IntegralKnapsackVisualizer extends Component {
 
                     <br />
                     <div className="desc">
-                        <p className="equation">Updating equation     {"\n"}: {this.state.equation}</p>
-                        <p className="equation">Item value : {this.state.currentVal}</p>
-                        <p className="equation">Item weight: {Wt}</p>
+                        <p className="label subheading">Item value : </p>
+                        <p className="equation"> {this.state.currentVal} </p>
+                        <p className="label subheading">Item weight : </p>
+                        <p className="equation"> {this.state.currentWt} </p>
                     </div>
                     <br />
 
                 </div>
                 <section>
-                    <FractionalKnapSackProblem id={[2]} />
+                    <FractionalKnapSackProblem id={this.state.currentId} />
                 </section>
 
             </section>

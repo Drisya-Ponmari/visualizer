@@ -1,13 +1,6 @@
-/**
- * @author Drisya Ponmari 
- */
+
 import "../Utils/Font.css"
-/**
- * @component IntegralKnapSakProblem 
- * @description Functional component for showing the problem statement and psuedo code of Integral Knapsack
- * @param {object} props includes line 'id' of the psuedo code to be highlighted
- * @returns corresponding jsx code to show problem statement and psuedocode with the current step highlighted
- * */
+
 function FractionalKnapSackProblem(props) {
 
 
@@ -18,8 +11,11 @@ function FractionalKnapSackProblem(props) {
         }
 
         for (let i = 0; i < props.id.length; i++) {
-            if (document.getElementById(props.id[i]) != null)
+
+            if (document.getElementById(props.id[i]) != null) {
+
                 document.getElementById(props.id[i]).className = "highlight"
+            }
         }
     }
     return (
