@@ -1,28 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
-import IntegralKnapsackVisualizer from "./Container/Visualizer/IntegralKnapsackVisualizser"
-import IntegralKnapSackInput from "./Container/Input/IntegralKnapSackInput"
-import Main from "./Utils/Main/Main"
-import FractionalKnapSackVisualizer from "./Container/Visualizer/FractionalKnapSackVisualizer"
+import React, { Component } from "react"
+import { BrowserRouter, Route, withRouter, Redirect } from "react-router-dom";
+import IntegralKnapSackMain from "./Algorithm/IntegralKnapSackMain"
+import FractionalKnapSackMain from "./Algorithm/FractionalKnapSackMain"
+import Home from "./Algorithm/Home"
 
+class DropDown extends Component {
+  onChange = (e) => {
+    this.props.history.push(`/${e.target.value}`);
+  }
+  render() {
+    return (
+      <div style={{ textAlign: 'center', padding: "10px", background: 'pink' }}>
+        <select onChange={this.onChange} style={{ color: 'black', background: 'pink', height: '40px' }}>
+          <option value="home" >Home</option>
+          <option value="integralknapsack">Integral Knapsack</option>
+          <option value="fractionalknapsack">Fractional Knapsack</option>
+        </select>
+      </div>
+    );
+  }
+}
+const Menu = withRouter(DropDown);
 
 function App() {
-  //console.log(fractionalKnapSack(3, 50, [10, 20, 30], [60, 100, 120]))
+
   return (
-    //n, W, w, v
-    <Main
-      Visualizer={FractionalKnapSackVisualizer}
-      Input={IntegralKnapSackInput}
-      title="Integral Knapsack"
-    />
+
+    <BrowserRouter>
+      <div>
+        <Menu />
+        <Redirect from="/" to="/home" />
+        <Route path="/home" render={() => <Home />} />
+        <Route path="/integralknapsack" render={() => <IntegralKnapSackMain />} />
+        <Route path="/fractionalknapsack" render={() => <FractionalKnapSackMain />} />
+
+      </div>
+    </BrowserRouter>
   );
 }
 
 export default App;
-  /*problem={IntegralKnapSackProblem}
-<Main
-Visualizer={IntegralKnapsackVisualizer}
-Input={IntegralKnapSackInput}
-title="Integral Knapsack"
-/>
-*/

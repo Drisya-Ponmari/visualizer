@@ -1,8 +1,6 @@
 
 function fractionalKnapSack(n, W, w, v) {
 
-
-    let visited = [];
     let valbywt = [];
     for (let i = 0; i < n; i++) {
         valbywt.push([(v[i] / w[i]), i]);
@@ -22,7 +20,7 @@ function fractionalKnapSack(n, W, w, v) {
         let j = index[i];
         if (W - w[j] >= 0) {
             W = W - w[j];
-            if (v[j] != 0) {
+            if (v[j] !== 0) {
                 weightArray.push(w[j]);
                 valueArray.push(v[j]);
                 ind.push(j);
@@ -34,7 +32,7 @@ function fractionalKnapSack(n, W, w, v) {
             let val = (v[j] * fraction);
             let wt = (w[j] * fraction);
             W = W - wt;
-            if (val != 0) {
+            if (val !== 0) {
                 weightArray.push(wt);
                 valueArray.push(val);
                 ind.push(j);

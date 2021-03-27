@@ -1,12 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
 import IntegralKnapsackVisualizer from "../Container/Visualizer/IntegralKnapsackVisualizser"
 import IntegralKnapSackInput from "../Container/Input/IntegralKnapSackInput"
-class IntegralKnapSackMain extends Component {
-    render() {
-        return (
+import Main from "../Utils/Main/Main"
+export default function IntegralKnapSackMain() {
 
-            <p>fd;l</p>
-        );
-    }
+    return (
+
+        <Main
+            Visualizer={IntegralKnapsackVisualizer}
+            Input={IntegralKnapSackInput}
+            title="Integral Knapsack"
+        />
+    );
+
 }
-export default IntegralKnapSackMain;
