@@ -119,16 +119,19 @@ class IntegralKnapsackVisualizer extends Component {
 
         }))
         let n = allSteps[0].length;
-        let color = [];
+        let col = [];
         for (let i = 0; i < n; i++) {
             var letters = '0123456789ABCDEF';
             var c = '#';
             for (var j = 0; j < 6; j++) {
                 c += letters[Math.floor(Math.random() * 16)];
             }
-            color.push(c);
+            col.push(c);
         }
-        this.state.color = color;
+
+        this.setState(prevState => ({
+            color: col
+        }))
         this.handlePlay();
 
     }

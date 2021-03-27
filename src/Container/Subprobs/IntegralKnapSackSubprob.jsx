@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import * as ReactDOM from 'react-dom';
-import { Color, Surface } from '@progress/kendo-drawing';
+import { Surface } from '@progress/kendo-drawing';
 import Tree from "../../Components/IntegralKnapSack/Tree"
 
 class IntegralKnapSackSubprob extends Component {

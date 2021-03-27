@@ -119,12 +119,14 @@ class IntegralKnapsackVisualizer extends Component {
      */
     visualize() {
 
-        let temp = this.state.matrix;
+
         const allSteps = IntegralKnapsack(this.props.data.numberOfItems, this.props.data.capacity, this.props.data.weights, this.props.data.values);
         this.visited = allSteps[0];
         this.Id = allSteps[1];
-        this.state.subprobs = allSteps[2];
-        this.state.len = this.visited.length;
+        this.setState(prevState => ({
+            subprobs: allSteps[2],
+            len: this.visited.length
+        }))
         // console.log("result from integral Knapsack algorithm" + visited);
         this.handlePlay();
 
@@ -152,7 +154,7 @@ class IntegralKnapsackVisualizer extends Component {
 
         let temp = this.state.matrix;
         let vtemp = this.state.value;
-        let equation = null;
+
         if (cell.vindex !== null)
             vtemp[0][cell.vindex[0]].role = cell.vindex[1];
         if (cell.firstVisit !== null)

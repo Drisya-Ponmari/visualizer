@@ -112,7 +112,7 @@ const subProblems = (dp, value, weight, W, n) => {
         if (flag === 1) {
             data.push([Wt, dp[i][Wt], 1]);
         }
-        if (dp[i][Wt] != dp[i - 1][Wt]) {
+        if (dp[i][Wt] !== dp[i - 1][Wt]) {
             data.push([value[i - 1], weight[i - 1]]);
             Wt = Wt - weight[i - 1];
             flag = 1;
@@ -122,7 +122,7 @@ const subProblems = (dp, value, weight, W, n) => {
         }
     }
 
-    if (data[data.length - 1].length == 2)
+    if (data[data.length - 1].length === 2)
         data.push([0, 0, 1]);
     return data;
 }
