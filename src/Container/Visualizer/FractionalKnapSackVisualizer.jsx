@@ -9,7 +9,7 @@ import "../../Utils/ControlBar.css"
 import Matrix from "../../Components/Matrix";
 import Box from "../../Components/Box/Box"
 
-class IntegralKnapsackVisualizer extends Component {
+class FractionalKnapsackVisualizer extends Component {
     constructor(props) {
 
         super(props);
@@ -30,6 +30,7 @@ class IntegralKnapsackVisualizer extends Component {
 
 
         }
+        console.log("so many");
 
     }
     /**
@@ -118,6 +119,7 @@ class IntegralKnapsackVisualizer extends Component {
             index: allSteps[2],
 
         }))
+
         let n = allSteps[0].length;
         let col = [];
         for (let i = 0; i < n; i++) {
@@ -128,12 +130,11 @@ class IntegralKnapsackVisualizer extends Component {
             }
             col.push(c);
         }
-
         this.setState(prevState => ({
             color: col
         }))
         this.handlePlay();
-
+        console.log("so many");
     }
 
 
@@ -193,7 +194,9 @@ class IntegralKnapsackVisualizer extends Component {
         this.interval = setInterval(() => {
             if (this.state.isRunning && this.state.Iter < this.state.index.length) {
 
+
                 const i = this.state.Iter;
+                console.log(i);
                 const position = this.state.index[i];
                 /**
                  * current showing cell by coloring
@@ -225,13 +228,13 @@ class IntegralKnapsackVisualizer extends Component {
                  * increment the iteration
                  */
                 this.setState(prevState => ({
-                    Iter: prevState.Iter + 1
+                    Iter: this.state.Iter + 1
                 }))
-            } else if (this.state.Iter >= this.state.index.length) {
+            } /*else if (this.state.Iter >= this.state.index.length) {
                 this.setState(prevState => ({
                     currentId: [13]
                 }))
-            }
+            }*/
         }, 2000);
     }
 
@@ -243,14 +246,13 @@ class IntegralKnapsackVisualizer extends Component {
     render() {
         const wt = (this.state.weightArray.slice(0, this.state.Iter));
         const val = (this.state.valueArray.slice(0, this.state.Iter));
-        const col = (this.state.color.slice(0, this.state.Iter));
-
+        const color = (this.state.color.slice(0, this.state.Iter));
 
         return (
             <section>
                 <section>
                     <div style={{ marginRight: "30px", marginBottom: "30px", marginTop: "30px" }}>
-                        <Box weightArray={wt} valueArray={val} color={col} capacity={this.props.data.capacity} item={this.state.index} /> <br />
+                        <Box weightArray={wt} valueArray={val} color={color} capacity={this.props.data.capacity} item={this.state.index} /> <br />
 
                         <div className="control-bar">
                             <button className="button start" onClick={() => this.visualize()}>Start Visualization</button> <br />
@@ -335,4 +337,4 @@ const block = (value) => {
     };
 };
 
-export default IntegralKnapsackVisualizer;
+export default FractionalKnapsackVisualizer;

@@ -15,7 +15,7 @@ import "../Utils/Label.css"
  * @see IntegralKnapsackVisualizer#render
  */
 function Matrix(props) {
-    // console.log(props)
+    //console.log(props)
     return (
         <div>
             <label className={props.labeclassname}>{props.title}</label>
