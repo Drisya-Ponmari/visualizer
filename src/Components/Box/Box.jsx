@@ -10,12 +10,9 @@ function Box(props) {
         color.push("white");
 
     }
-
-    console.log(color);
     const capacity = props.capacity;
 
     //calculate height array
-    const totalHeight = capacity;
     let filledHeight = 0;
     let filledWeight = 0;
     let filledValue = 0;
@@ -24,13 +21,19 @@ function Box(props) {
     let n = weight.length + 1;
     let pbyw = 0;
     for (let i = 0; i < n - 1; i++) {
-        pbyw += (value[i] / weight[i]);
+        pbyw += (((value[i] / weight[i]).toFixed(2)) * 60);
     }
-
+    const totalHeight = 10;
+    pbyw *= 40;
+    console.log("pb", pbyw)
     for (let i = 0; i < n - 1; i++) {
 
-        let wt = (totalHeight / capacity) * weight[i];
+        //       let wt = (totalHeight / capacity) * weight[i];
         //    let wt = (totalHeight / pbyw) * (value[i] / weight[i]);
+        let numerator = (value[i] / weight[i]).toFixed(2) * 60;
+        console.log(numerator);
+        let wt = totalHeight * (numerator * 1000 / pbyw)
+
         filledHeight += wt;
         filledValue += value[i];
         filledWeight += weight[i];
@@ -41,7 +44,6 @@ function Box(props) {
         index.push(n - 1);
         heightArray.push(Math.max(totalHeight - filledHeight, 0));
     }
-
     console.log(heightArray);
     return (
         <div >
@@ -52,7 +54,7 @@ function Box(props) {
                 <br />
                 totalweight = {filledWeight}
                 <br />
-                totalValue = {filledValue}
+                totalProfit = {filledValue}
             </div>
             <br />
             <div style={{ marginLeft: '20px' }}>

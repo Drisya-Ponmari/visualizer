@@ -13,6 +13,7 @@ import "../../Utils/Button.css"
 import "../../Utils/ControlBar.css"
 //import IntegralKnapSackSubprob from "../Subprobs/IntegralKnapSackSubprob"
 import Subproblem from "../../Components/IntegralKnapSack/Subproblem"
+import { ThemeConsumer } from "react-bootstrap/esm/ThemeProvider";
 /**
  * @component IntegralKnapsackVisualizer
  * @description Class component responsible for the visualisation.
@@ -46,7 +47,8 @@ class IntegralKnapsackVisualizer extends Component {
             currentId: null,
             isChange: false,
             len: 1,
-            subprobs: []
+            subprobs: [],
+            speed: 1000,
         }
 
     }
@@ -61,14 +63,14 @@ class IntegralKnapsackVisualizer extends Component {
             matrix: intialMatrix([], props.data.numberOfItems, props.data.capacity),
             weight: intialMatrix(props.data.weights, 0, props.data.numberOfItems - 1),
             value: intialMatrix(props.data.values, 0, props.data.numberOfItems - 1),
-            speed: props.speed,
             isRunning: false,
             Iter: 0,
             equation: null,
             currentId: null,
             isChange: false,
             len: 1,
-            subprobs: []
+            subprobs: [],
+            speed: 1000,
         })
 
     }
@@ -111,6 +113,23 @@ class IntegralKnapsackVisualizer extends Component {
         }))
     }
 
+    handleReset() {
+        console.log("reset");
+
+        this.setState(prevState => ({
+            matrix: intialMatrix([], this.props.data.numberOfItems, this.props.data.capacity),
+            weight: intialMatrix(this.props.data.weights, 0, this.props.data.numberOfItems - 1),
+            value: intialMatrix(this.props.data.values, 0, this.props.data.numberOfItems - 1),
+            isRunning: false,
+            Iter: 0,
+            equation: null,
+            currentId: null,
+            isChange: false,
+            len: 1,
+            subprobs: [],
+            speed: 1000,
+        }))
+    }
     /**
      * @function
      * @description function calls the Integral knapsack algorithm and return the array of objects
@@ -201,6 +220,7 @@ class IntegralKnapsackVisualizer extends Component {
      * overriding to clear Setinterval id .
      */
     componentWillUnmount() {
+        console.log("cleared")
         clearInterval(this.interval)
     }
     /**
@@ -216,7 +236,6 @@ class IntegralKnapsackVisualizer extends Component {
         //    if( this.state.Iter >= this.visited.length)
         this.interval = setInterval(() => {
             if (this.state.isRunning && this.state.Iter < this.visited.length) {
-
                 const i = this.state.Iter;
                 const cell = this.visited[i];
                 /**
@@ -248,7 +267,7 @@ class IntegralKnapsackVisualizer extends Component {
                     Iter: prevState.Iter + 1
                 }))
             }
-        }, 100);
+        }, this.state.speed);
     }
 
     /**
@@ -284,11 +303,12 @@ class IntegralKnapsackVisualizer extends Component {
                         description=""
                     />
                     <br />
-
-                    <button className="button start" onClick={() => this.visualize()}>Start Visualization</button>
                     <div className="control-bar">
+                        <button className="button start" onClick={() => this.visualize()}>Start Visualization</button><br />
                         <button className="button play" onClick={() => this.handlePlay()}>Resume</button>
                         <button className="button pause" onClick={() => this.handlePause()}>Pause</button>
+                        <button className="button play" onClick={() => this.handleReset()}>Reset</button>
+
                         {buttonShow ? <button className="button pause" onClick={() => this.handleAlgo()}>{ButtonName}</button> : ''}
                     </div>
                 </div>

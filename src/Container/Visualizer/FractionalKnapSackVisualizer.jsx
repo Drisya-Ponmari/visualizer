@@ -13,9 +13,14 @@ class FractionalKnapsackVisualizer extends Component {
     constructor(props) {
 
         super(props);
+        let density = []
+        for (let i = 0; i < props.data.values.length; i++) {
+            density.push((props.data.values[i] / props.data.weights[i]).toFixed(2));
+        }
         this.state = {
             weight: intialMatrix(props.data.weights, 0, props.data.numberOfItems - 1),
             value: intialMatrix(props.data.values, 0, props.data.numberOfItems - 1),
+            density: intialMatrix(density, 0, props.data.numberOfItems - 1),
             isRunning: false,
             Iter: 0,
             equation: null,
@@ -30,7 +35,7 @@ class FractionalKnapsackVisualizer extends Component {
 
 
         }
-        console.log("so many");
+
 
     }
     /**
@@ -40,9 +45,14 @@ class FractionalKnapsackVisualizer extends Component {
      * And hence the state of the class is reinitialized.
      */
     componentWillReceiveProps(props) {
+        let density = []
+        for (let i = 0; i < props.data.values.length; i++) {
+            density.push((props.data.values[i] / props.data.weights[i]).toFixed(2));
+        }
         this.setState({
             weight: intialMatrix(props.data.weights, 0, props.data.numberOfItems - 1),
             value: intialMatrix(props.data.values, 0, props.data.numberOfItems - 1),
+            density: intialMatrix(density, 0, props.data.numberOfItems - 1),
             speed: props.speed,
             isRunning: false,
             Iter: 0,
@@ -66,7 +76,7 @@ class FractionalKnapsackVisualizer extends Component {
      * @description Pausing the visualisation. 
      */
     handlePause() {
-        console.log("paused")
+
         /**
          * set isRunning variable to false
          */
@@ -77,7 +87,7 @@ class FractionalKnapsackVisualizer extends Component {
     }
 
     handleReset() {
-        console.log("reset");
+
 
         this.setState(prevState => ({
             Iter: 0,
@@ -85,7 +95,7 @@ class FractionalKnapsackVisualizer extends Component {
     }
 
     handleEnd() {
-        console.log("end");
+
         this.setState(prevState => ({
             Iter: this.state.index.length - 1
         }))
@@ -96,7 +106,7 @@ class FractionalKnapsackVisualizer extends Component {
      * @description Resuming the visualisation
      */
     handlePlay() {
-        console.log("played")
+
         /**
          * set isRunning to true
          */
@@ -112,7 +122,7 @@ class FractionalKnapsackVisualizer extends Component {
         const allSteps = FractionalKnapSack(this.props.data.numberOfItems, this.props.data.capacity, this.props.data.weights, this.props.data.values);
         this.equationArray = allSteps[3];
         this.IdArray = allSteps[4];
-        console.log(allSteps[2]);
+
         this.setState(prevState => ({
             weightArray: allSteps[0],
             valueArray: allSteps[1],
@@ -134,7 +144,7 @@ class FractionalKnapsackVisualizer extends Component {
             color: col
         }))
         this.handlePlay();
-        console.log("so many");
+
     }
 
 
@@ -147,9 +157,11 @@ class FractionalKnapsackVisualizer extends Component {
 
         let vtemp = this.state.value;
         let wtemp = this.state.weight;
+        let dtemp = this.state.density;
         vtemp[0][i].role = 'update';
         wtemp[0][i].role = 'update';
-        return [vtemp, wtemp];
+        dtemp[0][i].role = 'update';
+        return [vtemp, wtemp, dtemp];
     }
 
     /**
@@ -160,13 +172,15 @@ class FractionalKnapsackVisualizer extends Component {
 
         let vtemp = this.state.value;
         let wtemp = this.state.weight;
+        let dtemp = this.state.density;
 
         if (i !== previ) {
             vtemp[0][previ].role = 'stay';
             wtemp[0][previ].role = 'stay';
+            dtemp[0][previ].role = 'stay';
 
         }
-        return [vtemp, wtemp];
+        return [vtemp, wtemp, dtemp];
     }
     checkBound() {
         if (this.state.Iter >= this.state.len)
@@ -196,7 +210,7 @@ class FractionalKnapsackVisualizer extends Component {
 
 
                 const i = this.state.Iter;
-                console.log(i);
+
                 const position = this.state.index[i];
                 /**
                  * current showing cell by coloring
@@ -206,6 +220,7 @@ class FractionalKnapsackVisualizer extends Component {
                 this.setState(prevState => ({
                     value: currentBlock[0],
                     weight: currentBlock[1],
+                    density: currentBlock[2],
                     equation: "",
                     item: position,
                     currentWt: this.state.weightArray[i],
@@ -222,6 +237,7 @@ class FractionalKnapsackVisualizer extends Component {
                     this.setState(prevState => ({
                         value: prevBlock[0],
                         weight: prevBlock[1],
+                        density: prevBlock[2],
                     }))
                 }
                 /**
@@ -247,7 +263,7 @@ class FractionalKnapsackVisualizer extends Component {
         const wt = (this.state.weightArray.slice(0, this.state.Iter));
         const val = (this.state.valueArray.slice(0, this.state.Iter));
         const color = (this.state.color.slice(0, this.state.Iter));
-
+        //  console.log(this.state.density)
         return (
             <section>
                 <section>
@@ -278,13 +294,19 @@ class FractionalKnapsackVisualizer extends Component {
                         labeclassname="label subheading"
                         description=""
                     />
-
+                    <Matrix
+                        matrix={this.state.density}
+                        label={false}
+                        title="Profit Per Weight"
+                        labeclassname="label subheading"
+                        description=""
+                    />
                     <br />
                     <div className="desc">
-                        <p className="label subheading">Item value : </p>
-                        <p className="equation"> {this.state.currentVal} </p>
-                        <p className="label subheading">Item weight : </p>
-                        <p className="equation"> {this.state.currentWt} </p>
+                        <p className="label subheading">Item profit taken: </p>
+                        <p className="equation"> {this.state.currentVal.toFixed(2)} </p>
+                        <p className="label subheading">Item weight taken: </p>
+                        <p className="equation"> {this.state.currentWt.toFixed(2)} </p>
                     </div>
                     <br />
 
@@ -309,6 +331,7 @@ class FractionalKnapsackVisualizer extends Component {
  */
 const intialMatrix = (val, Row, Col) => {
 
+    console.log(val);
     let matrix = new Array(Row + 1);
     for (let row = 0; row <= Row; row++)
         matrix[row] = [];

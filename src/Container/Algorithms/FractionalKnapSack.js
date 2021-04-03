@@ -10,6 +10,7 @@ function fractionalKnapSack(n, W, w, v) {
         return a[0] < b[0] ? -1 : 1;
     })
     let index = []
+
     for (let i = 0; i < n; i++) {
         index.push(valbywt[i][1]);
     }
