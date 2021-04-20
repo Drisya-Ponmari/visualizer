@@ -13,7 +13,6 @@ import "../../Utils/Button.css"
 import "../../Utils/ControlBar.css"
 //import IntegralKnapSackSubprob from "../Subprobs/IntegralKnapSackSubprob"
 import Subproblem from "../../Components/IntegralKnapSack/Subproblem"
-import { ThemeConsumer } from "react-bootstrap/esm/ThemeProvider";
 /**
  * @component IntegralKnapsackVisualizer
  * @description Class component responsible for the visualisation.

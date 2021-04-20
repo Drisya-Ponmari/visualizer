@@ -6,11 +6,14 @@ export default function HuffmanCodeMain() {
 
     return (
 
-        <Main
+        /*<Main
             Visualizer={HuffmanCodeVisualizer}
             Input={HuffmanCodeInput}
             title="Huffman Code"
-        />
+        />*/
+        <div>
+            Coming soon
+        </div>
 
     );
 
