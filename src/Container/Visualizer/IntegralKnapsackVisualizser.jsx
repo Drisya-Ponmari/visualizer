@@ -47,7 +47,7 @@ class IntegralKnapsackVisualizer extends Component {
             isChange: false,
             len: 1,
             subprobs: [],
-            speed: 1000,
+            speed: 1,
         }
 
     }
@@ -69,7 +69,7 @@ class IntegralKnapsackVisualizer extends Component {
             isChange: false,
             len: 1,
             subprobs: [],
-            speed: 1000,
+            speed: 1,
         })
 
     }

@@ -10,7 +10,7 @@ export function NewCircle(center, value) {
 
     if (sz === 2) {
         colour = 'yellow';
-        radius = 20;
+        radius = 30;
         heading = new Text("Item", [center[0] - 30, center[1] - 30]);
         cap = new Text("", center);
         val = new Text("Value: " + value[0], [center[0] - left, center[1] - 10]);

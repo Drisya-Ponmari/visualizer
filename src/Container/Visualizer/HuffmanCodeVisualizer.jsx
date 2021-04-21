@@ -1,4 +1,8 @@
 import React, { Component } from "react";
+
+import KendoSurface from "../../Utils/KendoSurface"
+import HuffmanCodeTree from "../../DataStructure/HuffmanCodeTree"
+
 class HuffmanCodeVisualizer extends Component {
 
     constructor(props) {
@@ -18,19 +22,27 @@ class HuffmanCodeVisualizer extends Component {
 
     componentWillReceiveProps(props) {
 
-        this.setState({
+        this.setState(prevState => ({
             leaves: props.data.leaves,
             vertices: props.data.leaves,
             edges: null,
             values: props.data.values,
             chars: props.data.chars,
-        })
+        }))
     }
     render() {
+        const data = {
+            leaves: this.state.leaves,
+            vertices: this.state.leaves,
+            edges: null,
+            values: this.state.values,
+            chars: this.state.chars,
+        };
+        console.log(data);
         return (
             <section>
                 <section>
-                    {console.log(this.state)}
+                    <KendoSurface data={data} datastructure={HuffmanCodeTree} height="2000px" width="2000px" />
                 </section>
             </section>
         )
