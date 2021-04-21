@@ -33,13 +33,14 @@ class HuffmanCodeInput extends Component {
             } else {
                 freqMap.set(message[i], 1);
                 leaves++;
-                chars.push(message[i]);
             }
         }
+        let sortMap = new Map([...freqMap.entries()].sort((a, b) => a[1] - b[1]))
 
         let values = [];
-        for (let i = 0; i < leaves; i++) {
-            values.push(freqMap.get(chars[i]));
+        for (let [key, value] of sortMap) {
+            values.push(value);
+            chars.push(key);
         }
         const data = {
             leaves: leaves,

@@ -12,6 +12,7 @@ export default function HuffmanCodeTree(surface, data) {
 
     var cx = 100, cy = 100, inc = 150, cir, center;
 
+    console.log(cx, cy);
     for (let i = 0; i < data.leaves; i++) {
 
         center = [cx, cy];

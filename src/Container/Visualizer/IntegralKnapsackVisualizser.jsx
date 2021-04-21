@@ -137,7 +137,7 @@ class IntegralKnapsackVisualizer extends Component {
      */
     visualize() {
 
-
+        console.log("visualize called");
         const allSteps = IntegralKnapsack(this.props.data.numberOfItems, this.props.data.capacity, this.props.data.weights, this.props.data.values);
         this.visited = allSteps[0];
         this.Id = allSteps[1];

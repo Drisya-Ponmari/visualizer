@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import * as ReactDOM from 'react-dom';
 import { Surface } from '@progress/kendo-drawing';
+import "../Utils/Main/Main.css"
 
 class KendoSurface extends Component {
 
@@ -11,21 +12,24 @@ class KendoSurface extends Component {
             data: props.data,
             height: props.height,
             width: props.width,
-            datastructure: props.datastructure
+            datastructure: props.datastructure,
+
         }
     }
     componentWillReceiveProps(props) {
-        console.log(props);
-        this.setState(prevState => ({
+
+        this.setState({
             data: props.data,
             height: props.height,
             width: props.width,
             datastructure: props.datastructure
-        }))
+        })
     }
     componentDidMount() {
+        this.state.datastructure(this.createSurface(), this.state.data);
 
-        console.log(this.state.data);
+    }
+    componentDidUpdate() {
         this.state.datastructure(this.createSurface(), this.state.data);
     }
 
@@ -37,10 +41,16 @@ class KendoSurface extends Component {
     }
 
     render() {
-        return (
-            <div id="surface" style={{ height: this.state.height, width: this.state.width }}>
 
-            </div>
+        return (
+            <section id="surface" style={{
+                width: this.state.width,
+                height: this.state.height,
+                display: 'flex'
+
+            }}>
+
+            </section>
         )
     }
 }
