@@ -24,6 +24,7 @@ class HuffmanCodeInput extends Component {
     inputPreProcess() {
 
         let message = this.state.message;
+        let leaves = 0, chars = [];
         let freqMap = new Map();
         for (let i = 0; i < message.length; i++) {
             if (freqMap.has(message[i])) {
@@ -31,14 +32,21 @@ class HuffmanCodeInput extends Component {
                 freqMap.set(message[i], freq + 1);
             } else {
                 freqMap.set(message[i], 1);
+                leaves++;
+                chars.push(message[i]);
             }
         }
 
+        let values = [];
+        for (let i = 0; i < leaves; i++) {
+            values.push(freqMap.get(chars[i]));
+        }
         const data = {
-            freqMap: freqMap
+            leaves: leaves,
+            chars: chars,
+            values: values,
         }
         return data;
-
     }
     handleSubmit(event) {
         this.props.func(true, this.inputPreProcess())
