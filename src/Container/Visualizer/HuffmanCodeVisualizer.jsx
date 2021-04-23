@@ -24,6 +24,7 @@ class HuffmanCodeVisualizer extends Component {
             Iter: props.data.leaves,
             allSteps: null,
             isRunning: false,
+            label: false
         }
     }
 
@@ -43,6 +44,7 @@ class HuffmanCodeVisualizer extends Component {
             Iter: props.data.leaves,
             allSteps: null,
             isRunning: false,
+            label: false,
         }))
     }
 
@@ -51,7 +53,16 @@ class HuffmanCodeVisualizer extends Component {
      */
     visualize() {
 
+
         const allSteps = HuffmanCode(this.state.chars, this.state.freq, this.state.leaves);
+        /*console.log(all);
+        const allSteps = {
+            vertices: 14,
+            edges: [[], [], [], [0, 1], [3, 2], [4, 3], [5, 4], [6, 5], [7, 6], [8, 7], [9, 8], [10, 9], [11, 10], [12, 11]],
+            values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+            labels: []
+        }*/
+
         this.setState(prevState => ({
             allSteps: allSteps,
             isRunning: true,
@@ -76,10 +87,17 @@ class HuffmanCodeVisualizer extends Component {
                     vertices: i,
                     edges: edges,
                     values: values,
+                    Iter: prevState.Iter + 1
                 }))
 
+                /*                this.setState(prevState => ({
+                                    Iter: prevState.Iter + 1
+                                }))*/
+            }
+            else if (this.state.isRunning && this.state.Iter == this.state.allSteps.vertices + 1) {
                 this.setState(prevState => ({
-                    Iter: prevState.Iter + 1
+                    label: true,
+                    Iter: prevState.Iter + 1,
                 }))
             }
         }, 1000)
@@ -92,10 +110,11 @@ class HuffmanCodeVisualizer extends Component {
             edges: this.state.edges,
             values: this.state.values,
             chars: this.state.chars,
+            label: this.state.label
         };
         let width = this.state.leaves * 150;
-        var height;
-        this.state.vertices > 15 ? height = 700 + (this.state.vertices - 8) * 60 : height = 700;
+        var height = 800;
+        //this.state.vertices - this.state. > 15 ? height = 700 + (this.state.vertices - 8) * 60 : height = 700;
         return (
             <section>
                 <div className="visual">
