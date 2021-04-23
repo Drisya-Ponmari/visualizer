@@ -11,6 +11,7 @@ function midPoint(a, b) {
 
 export function NewEdge(from, to, colour, directed, weight) {
 
+    directed == true ? weight = weight : weight = ''
     var newTo = XY(from, to);
     var newFrom = XY(to, from);
     var x1 = newFrom[0];
@@ -43,7 +44,7 @@ export function NewEdge(from, to, colour, directed, weight) {
     var m3 = midPoint(m0, m1);
     var m4 = midPoint(m1, m2);
     var m5 = midPoint(m3, m4);
-    arrow = Arrow(m3, m5, colour);
+    arrow = Arrow(m5, m3, colour);
 
     //var points = [[x1,y1],[x2,y2],[x3,y3],[x4,y4]];
     //var t = 0.5;
