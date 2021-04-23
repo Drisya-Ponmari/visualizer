@@ -2,13 +2,14 @@
 import { Circle, geometry, Group, Text } from '@progress/kendo-drawing';
 const { Circle: GeomCircle } = geometry;
 
-export function SmallCircle(center, value, radius) {
+export function SmallCircle(center, value, radius, color) {
 
     let font = {
         fill: {
-            color: 'white',
-            size: 100,
-        }
+            color: 'yellow'
+
+        },
+        font: `bold 17px Arial`
     }
 
     const group = new Group();
@@ -16,7 +17,7 @@ export function SmallCircle(center, value, radius) {
 
     var circle = new Circle(new GeomCircle(center, radius), {
         fill: {
-            color: 'green'
+            color: color,
         }
     })
 
