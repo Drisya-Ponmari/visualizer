@@ -1,23 +1,9 @@
 
 import "../Utils/Font.css"
+import { helperHighlight } from "./helperHighlight"
 
 function FractionalKnapSackProblem(props) {
-
-
-    if (props.id !== null) {
-        for (let i = 1; i < 14; i++) {
-            if (document.getElementById(i) != null)
-                document.getElementById(i).className = ""
-        }
-
-        for (let i = 0; i < props.id.length; i++) {
-
-            if (document.getElementById(props.id[i]) != null) {
-
-                document.getElementById(props.id[i]).className = "highlight"
-            }
-        }
-    }
+    helperHighlight(props.id, 14);
     return (
         <div>
             <h4 className="Heading">Problem</h4>

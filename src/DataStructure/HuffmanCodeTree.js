@@ -3,7 +3,12 @@ import { NewEdge } from "../Components/NewEdge"
 
 import { SmallCircle } from "../Components/SmallCircle"
 
+function circleColor(p1, p2, i) {
 
+    if (p1 == i || p2 == i)
+        return 'yellow';
+    return 'green';
+}
 export default function HuffmanCodeTree(surface, data) {
 
     var group = new Group();
@@ -11,10 +16,13 @@ export default function HuffmanCodeTree(surface, data) {
     var radius = 30, color = 'green', edgeColor = 'black';
     var left, right;
     var cx = 100, cy = 100, inc = 150, cir, center;
+    if (data.edges != null)
+        var lastp1 = data.edges[data.vertices - 1][0], lastp2 = data.edges[data.vertices - 1][1];
 
 
     for (let i = 0; i < data.leaves; i++) {
 
+        color = circleColor(lastp1, lastp2, i);
         center = [cx, cy];
         cir = SmallCircle(center, data.chars[i] + "::" + data.values[i], radius, color);
         group.append(cir);
@@ -24,8 +32,12 @@ export default function HuffmanCodeTree(surface, data) {
 
     for (let i = data.leaves; i < data.vertices; i++) {
 
-        if (i == data.vertices - 1)
+        color = circleColor(lastp1, lastp2, i);
+
+        if (i == data.vertices - 1) {
             edgeColor = 'red';
+            color = 'pink';
+        }
         let p1 = nodeCoordinates[data.edges[i][0]];
         let p2 = nodeCoordinates[data.edges[i][1]];
 

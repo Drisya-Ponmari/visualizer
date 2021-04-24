@@ -6,7 +6,7 @@ export function SmallCircle(center, value, radius, color) {
 
     let font = {
         fill: {
-            color: 'yellow'
+            color: 'black'
 
         },
         font: `bold 17px Arial`

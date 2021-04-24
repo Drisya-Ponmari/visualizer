@@ -1,21 +1,13 @@
 function huffmanCode(chars, freq, leaves) {
 
-    /*const allSteps = {
-        vertices: 14,
-        edges: [[], [], [], [0, 1], [3, 2], [4, 3], [5, 4], [6, 5], [7, 6], [8, 7], [9, 8], [10, 9], [11, 10], [12, 11]],
-        values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-        labels: []
-    }*/
-
-
     var minHeap = []
-    var edges = [], values = [];
+    var edges = [], values = [], id = [], code = [];
     for (let i = 0; i < leaves; i++) {
         minHeap.push([freq[i], i]);
         edges.push([]);
         values.push(freq[i]);
     }
-
+    id.push([1, 2]);
     var vertices = leaves;
     var iter = leaves;
     while (minHeap.length != 1) {
@@ -32,14 +24,34 @@ function huffmanCode(chars, freq, leaves) {
         minHeap.sort(function (a, b) { return a[0] - b[0]; });
         vertices++;
         iter++;
+        id.push([4, 5, 6, 7, 8]);
     }
+    var p1, p2;
+    for (let i = 0; i < vertices; i++) {
+        code[i] = '';
+    }
+    for (let i = edges.length - 1; i >= 0; i--) {
+
+        p1 = edges[i][0];
+        p2 = edges[i][1];
+        code[p1] = code[i];
+        code[p2] = code[i];
+        if (values[p1] < values[p2]) {
+            code[p1] += '1';
+            code[p2] += '0';
+        } else {
+            code[p1] += '0';
+            code[p2] += '1';
+        }
+    }
+    console.log(chars, code);
+    id.push([9]);
     const allSteps = {
         vertices: vertices,
         edges: edges,
         values: values,
+        id: id
     }
-    //  console.log(allSteps);
-
 
     return allSteps;
 }

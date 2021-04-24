@@ -244,13 +244,13 @@ class FractionalKnapsackVisualizer extends Component {
                  * increment the iteration
                  */
                 this.setState(prevState => ({
-                    Iter: this.state.Iter + 1
+                    Iter: this.state.Iter + 1,
                 }))
-            } /*else if (this.state.Iter >= this.state.index.length) {
+            } else if (this.state.Iter >= this.state.index.length) {
                 this.setState(prevState => ({
                     currentId: [13]
                 }))
-            }*/
+            }
         }, 2000);
     }
 
