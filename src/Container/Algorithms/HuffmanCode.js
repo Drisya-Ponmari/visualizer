@@ -36,13 +36,8 @@ function huffmanCode(chars, freq, leaves) {
         p2 = edges[i][1];
         code[p1] = code[i];
         code[p2] = code[i];
-        if (values[p1] < values[p2]) {
-            code[p1] += '1';
-            code[p2] += '0';
-        } else {
-            code[p1] += '0';
-            code[p2] += '1';
-        }
+        code[p1] += '1';
+        code[p2] += '0';
     }
     console.log(chars, code);
     id.push([9]);

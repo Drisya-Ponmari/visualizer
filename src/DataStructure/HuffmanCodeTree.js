@@ -16,8 +16,9 @@ export default function HuffmanCodeTree(surface, data) {
     var radius = 30, color = 'green', edgeColor = 'black';
     var left, right;
     var cx = 100, cy = 100, inc = 150, cir, center;
-    if (data.edges != null)
+    if (data.edges != null) {
         var lastp1 = data.edges[data.vertices - 1][0], lastp2 = data.edges[data.vertices - 1][1];
+    }
 
 
     for (let i = 0; i < data.leaves; i++) {
