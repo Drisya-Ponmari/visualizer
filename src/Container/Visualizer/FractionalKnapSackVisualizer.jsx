@@ -8,6 +8,7 @@ import "../../Utils/Button.css"
 import "../../Utils/ControlBar.css"
 import Matrix from "../../Components/Matrix";
 import Box from "../../Components/Box/Box"
+import { createMatrix } from "../../Utils/CreateMatrix"
 
 class FractionalKnapsackVisualizer extends Component {
     constructor(props) {
@@ -18,9 +19,9 @@ class FractionalKnapsackVisualizer extends Component {
             density.push((props.data.values[i] / props.data.weights[i]).toFixed(2));
         }
         this.state = {
-            weight: intialMatrix(props.data.weights, 0, props.data.numberOfItems - 1),
-            value: intialMatrix(props.data.values, 0, props.data.numberOfItems - 1),
-            density: intialMatrix(density, 0, props.data.numberOfItems - 1),
+            weight: createMatrix(props.data.weights, 0, props.data.numberOfItems - 1),
+            value: createMatrix(props.data.values, 0, props.data.numberOfItems - 1),
+            density: createMatrix(density, 0, props.data.numberOfItems - 1),
             isRunning: false,
             Iter: 0,
             equation: null,
@@ -50,9 +51,9 @@ class FractionalKnapsackVisualizer extends Component {
             density.push((props.data.values[i] / props.data.weights[i]).toFixed(2));
         }
         this.setState({
-            weight: intialMatrix(props.data.weights, 0, props.data.numberOfItems - 1),
-            value: intialMatrix(props.data.values, 0, props.data.numberOfItems - 1),
-            density: intialMatrix(density, 0, props.data.numberOfItems - 1),
+            weight: createMatrix(props.data.weights, 0, props.data.numberOfItems - 1),
+            value: createMatrix(props.data.values, 0, props.data.numberOfItems - 1),
+            density: createMatrix(density, 0, props.data.numberOfItems - 1),
             speed: props.speed,
             isRunning: false,
             Iter: 0,
@@ -321,43 +322,6 @@ class FractionalKnapsackVisualizer extends Component {
     }
 }
 
-/**
- * @function
- * @description Helper function. matrix is initialised . Used for value array, matrix array and weight array.
- * @param {Array<integer>} val 
- * @param {integer} Row row of matrix
- * @param {integer} Col column of matrix
- * @see IntegralKnapsackVisualizer
- */
-const intialMatrix = (val, Row, Col) => {
 
-    console.log(val);
-    let matrix = new Array(Row + 1);
-    for (let row = 0; row <= Row; row++)
-        matrix[row] = [];
-
-    for (let row = 0; row <= Row; row++) {
-
-        for (let col = 0; col <= Col; col++) {
-            matrix[row][col] = val === [] ? block(null) : block(val[col]);
-        }
-    };
-
-    return matrix;
-}
-
-/**
- * @function
- * @param {integer} value  value of a matrix block
- * @description Block of each matrix is created.
- * @see IntegralKnapsackVisualizer
- */
-const block = (value) => {
-
-    return {
-        value: value,
-        role: "stay"
-    };
-};
 
 export default FractionalKnapsackVisualizer;

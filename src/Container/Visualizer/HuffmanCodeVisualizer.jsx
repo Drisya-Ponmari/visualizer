@@ -4,12 +4,14 @@ import KendoSurface from "../../Utils/KendoSurface"
 import HuffmanCodeTree from "../../DataStructure/HuffmanCodeTree"
 import HuffmanCode from "../Algorithms/HuffmanCode"
 import HuffmanCodeProblem from "../../Problems/HuffmanCodeProblem"
+import Matrix from "../../Components/Matrix";
 
 import "../../Utils/Main/Main.css"
 import "../../Utils/Font.css"
 import "../../Utils/Button.css"
 import "../../Utils/ControlBar.css"
 import "../../Utils/Label.css"
+import { createMatrix } from "../../Utils/CreateMatrix";
 
 class HuffmanCodeVisualizer extends Component {
 
@@ -26,8 +28,11 @@ class HuffmanCodeVisualizer extends Component {
             allSteps: null,
             isRunning: false,
             label: false,
-            Id: null
+            Id: null,
+            code: null,
+            subprobs: [],
         }
+        this.updateCode = this.updateCode.bind(this);
     }
 
     /**
@@ -47,8 +52,20 @@ class HuffmanCodeVisualizer extends Component {
             allSteps: null,
             isRunning: false,
             label: false,
-            Id: null
+            Id: null,
+            code: null,
+            subprobs: [],
         }))
+    }
+
+    /**
+     * label updating
+     */
+    updateCode(code) {
+
+        this.setState({
+            code: code,
+        })
     }
     /**
         * @function
@@ -76,6 +93,8 @@ class HuffmanCodeVisualizer extends Component {
 
     handleEnd() {
 
+        if (this.state.allSteps === null)
+            this.visualize();
         this.setState(prevState => ({
             Iter: prevState.allSteps.vertices,
         }))
@@ -94,7 +113,9 @@ class HuffmanCodeVisualizer extends Component {
             isRunning: true
         }))
     }
-
+    handleReset() {
+        this.componentWillReceiveProps(this.props);
+    }
     /**
      * function is called when the startvisualiation is clicked
      */
@@ -127,24 +148,28 @@ class HuffmanCodeVisualizer extends Component {
             if (this.state.isRunning && this.state.Iter <= this.state.allSteps.vertices) {
 
                 const i = this.state.Iter;
+                const j = i - this.state.leaves;
                 const edges = this.state.allSteps.edges.slice(0, i);
                 const values = this.state.allSteps.values.slice(0, i);
-                const Id = this.state.allSteps.id[i - this.state.leaves];
+                const Id = this.state.allSteps.id[j];
+                const subprobs = this.state.allSteps.parents.slice(0, j + 1)
 
                 this.setState(prevState => ({
                     vertices: i,
                     edges: edges,
                     values: values,
                     Id: Id,
-                    Iter: prevState.Iter + 1
+                    Iter: prevState.Iter + 1,
+                    subprobs: subprobs
                 }))
 
             }
-            else if (this.state.isRunning && this.state.Iter == this.state.allSteps.vertices + 1) {
+            else if (this.state.isRunning && this.state.Iter === this.state.allSteps.vertices + 1) {
                 this.setState(prevState => ({
                     label: true,
                     Iter: prevState.Iter + 1,
-                    Id: [9]
+                    Id: [9],
+                    isRunning: false,
                 }))
             }
         }, 1000)
@@ -157,11 +182,14 @@ class HuffmanCodeVisualizer extends Component {
             edges: this.state.edges,
             values: this.state.values,
             chars: this.state.chars,
-            label: this.state.label
+            label: this.state.label,
+            updateCode: this.updateCode,
+            code: this.state.code
         };
         let width = Math.max(this.state.leaves * 150, 350);
         var height = 620;
-        //this.state.vertices - this.state. > 15 ? height = 700 + (this.state.vertices - 8) * 60 : height = 700;
+        var huffman = this.state.code !== null ? [this.state.chars, this.state.code.slice(0, this.state.leaves)] : '';
+        console.log(huffman);
         return (
             <section>
                 <div className="visual">
@@ -174,6 +202,26 @@ class HuffmanCodeVisualizer extends Component {
                         <button className="button play" onClick={() => this.handleReset()}>Reset</button>
                         <button className="button play" onClick={() => this.handleEnd()}>End</button>
                     </div>
+                </div>
+                <div className="smallsection">
+                    <label className="label heading"> Subproblems </label>
+                    <br />
+                    <Matrix
+                        matrix={createMatrix(this.state.subprobs, this.state.subprobs.length - 1, this.state.leaves - 1)}
+                        label={false}
+                        title=" Symbols"
+                        labeclassname="label subheading"
+                        description=""
+                    />
+
+                    {this.state.label ? <Matrix
+                        matrix={createMatrix(huffman, 1, this.state.leaves - 1)}
+                        label={false}
+                        title=" Result"
+                        labeclassname="label subheading"
+                        description=""
+                    /> : ''}
+
                 </div>
                 <section>
                     <HuffmanCodeProblem id={this.state.Id} />

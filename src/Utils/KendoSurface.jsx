@@ -13,7 +13,6 @@ class KendoSurface extends Component {
             height: props.height,
             width: props.width,
             datastructure: props.datastructure,
-
         }
     }
     componentWillReceiveProps(props) {
@@ -30,7 +29,8 @@ class KendoSurface extends Component {
 
     }
     componentDidUpdate() {
-        this.state.datastructure(this.createSurface(), this.state.data);
+        if (this.state.data.code === null)
+            this.state.datastructure(this.createSurface(), this.state.data);
     }
 
     createSurface = () => {

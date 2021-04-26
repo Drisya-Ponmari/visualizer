@@ -11,6 +11,7 @@ import "../../Utils/Main/Main.css"
 import "../../Utils/Font.css"
 import "../../Utils/Button.css"
 import "../../Utils/ControlBar.css"
+import { createMatrix } from "../../Utils/CreateMatrix"
 //import IntegralKnapSackSubprob from "../Subprobs/IntegralKnapSackSubprob"
 import Subproblem from "../../Components/IntegralKnapSack/Subproblem"
 /**
@@ -37,9 +38,9 @@ class IntegralKnapsackVisualizer extends Component {
          * currentId - Id correspond to pseudocode line.
          */
         this.state = {
-            matrix: intialMatrix([], props.data.numberOfItems, props.data.capacity),
-            weight: intialMatrix(props.data.weights, 0, props.data.numberOfItems - 1),
-            value: intialMatrix(props.data.values, 0, props.data.numberOfItems - 1),
+            matrix: createMatrix([], props.data.numberOfItems, props.data.capacity),
+            weight: createMatrix(props.data.weights, 0, props.data.numberOfItems - 1),
+            value: createMatrix(props.data.values, 0, props.data.numberOfItems - 1),
             isRunning: false,
             Iter: 0,
             equation: null,
@@ -59,9 +60,9 @@ class IntegralKnapsackVisualizer extends Component {
      */
     componentWillReceiveProps(props) {
         this.setState({
-            matrix: intialMatrix([], props.data.numberOfItems, props.data.capacity),
-            weight: intialMatrix(props.data.weights, 0, props.data.numberOfItems - 1),
-            value: intialMatrix(props.data.values, 0, props.data.numberOfItems - 1),
+            matrix: createMatrix([], props.data.numberOfItems, props.data.capacity),
+            weight: createMatrix(props.data.weights, 0, props.data.numberOfItems - 1),
+            value: createMatrix(props.data.values, 0, props.data.numberOfItems - 1),
             isRunning: false,
             Iter: 0,
             equation: null,
@@ -116,9 +117,9 @@ class IntegralKnapsackVisualizer extends Component {
         console.log("reset");
 
         this.setState(prevState => ({
-            matrix: intialMatrix([], this.props.data.numberOfItems, this.props.data.capacity),
-            weight: intialMatrix(this.props.data.weights, 0, this.props.data.numberOfItems - 1),
-            value: intialMatrix(this.props.data.values, 0, this.props.data.numberOfItems - 1),
+            matrix: createMatrix([], this.props.data.numberOfItems, this.props.data.capacity),
+            weight: createMatrix(this.props.data.weights, 0, this.props.data.numberOfItems - 1),
+            value: createMatrix(this.props.data.values, 0, this.props.data.numberOfItems - 1),
             isRunning: false,
             Iter: 0,
             equation: null,
@@ -322,42 +323,5 @@ class IntegralKnapsackVisualizer extends Component {
     }
 }
 
-/**
- * @function
- * @description Helper function. matrix is initialised . Used for value array, matrix array and weight array.
- * @param {Array<integer>} val 
- * @param {integer} Row row of matrix
- * @param {integer} Col column of matrix
- * @see IntegralKnapsackVisualizer
- */
-const intialMatrix = (val, Row, Col) => {
-
-    let matrix = new Array(Row + 1);
-    for (let row = 0; row <= Row; row++)
-        matrix[row] = [];
-
-    for (let row = 0; row <= Row; row++) {
-
-        for (let col = 0; col <= Col; col++) {
-            matrix[row][col] = val === [] ? block(null) : block(val[col]);
-        }
-    };
-
-    return matrix;
-}
-
-/**
- * @function
- * @param {integer} value  value of a matrix block
- * @description Block of each matrix is created.
- * @see IntegralKnapsackVisualizer
- */
-const block = (value) => {
-
-    return {
-        value: value,
-        role: "stay"
-    };
-};
 
 export default IntegralKnapsackVisualizer;
