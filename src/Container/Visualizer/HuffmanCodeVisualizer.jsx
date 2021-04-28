@@ -30,7 +30,7 @@ class HuffmanCodeVisualizer extends Component {
             label: false,
             Id: null,
             code: null,
-            subprobs: [],
+            subprobs: props.data.message,
         }
         this.updateCode = this.updateCode.bind(this);
     }
@@ -54,7 +54,7 @@ class HuffmanCodeVisualizer extends Component {
             label: false,
             Id: null,
             code: null,
-            subprobs: [],
+            subprobs: props.data.message,
         }))
     }
 
@@ -119,18 +119,11 @@ class HuffmanCodeVisualizer extends Component {
     /**
      * function is called when the startvisualiation is clicked
      */
+
     visualize() {
 
 
-        const allSteps = HuffmanCode(this.state.chars, this.state.freq, this.state.leaves);
-        /*console.log(all);
-        const allSteps = {
-            vertices: 14,
-            edges: [[], [], [], [0, 1], [3, 2], [4, 3], [5, 4], [6, 5], [7, 6], [8, 7], [9, 8], [10, 9], [11, 10], [12, 11]],
-            values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-            labels: []
-        }*/
-
+        const allSteps = HuffmanCode(this.state.chars, this.state.freq, this.state.leaves, this.props.data.message);
         this.setState(prevState => ({
             allSteps: allSteps,
             isRunning: true,
@@ -189,7 +182,6 @@ class HuffmanCodeVisualizer extends Component {
         let width = Math.max(this.state.leaves * 150, 350);
         var height = 620;
         var huffman = this.state.code !== null ? [this.state.chars, this.state.code.slice(0, this.state.leaves)] : '';
-        console.log(huffman);
         return (
             <section>
                 <div className="visual">
@@ -206,14 +198,7 @@ class HuffmanCodeVisualizer extends Component {
                 <div className="smallsection">
                     <label className="label heading"> Subproblems </label>
                     <br />
-                    <Matrix
-                        matrix={createMatrix(this.state.subprobs, this.state.subprobs.length - 1, this.state.leaves - 1)}
-                        label={false}
-                        title=" Symbols"
-                        labeclassname="label subheading"
-                        description=""
-                    />
-
+                    {this.state.subprobs}
                     {this.state.label ? <Matrix
                         matrix={createMatrix(huffman, 1, this.state.leaves - 1)}
                         label={false}
