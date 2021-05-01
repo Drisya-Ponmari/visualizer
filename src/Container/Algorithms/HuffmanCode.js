@@ -8,6 +8,7 @@ function codeProcess(map, leaves, charMap, message) {
     }
 
     var tempMessage = '';
+    var colorIndex = [];
     for (let i = 0; i < message.length; i++) {
         let char = message[i];
         let index = charMap.get(char);

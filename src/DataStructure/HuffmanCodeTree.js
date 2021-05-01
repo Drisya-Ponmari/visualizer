@@ -82,8 +82,9 @@ export default function HuffmanCodeTree(surface, data) {
             code[p1] = code[i] + code[p1];
             code[p2] = code[i] + code[p2];
 
-
         }
+
+
         data.updateCode(code);
     }
     surface.draw(group);
