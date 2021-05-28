@@ -5,6 +5,7 @@ import HuffmanCodeTree from "../../DataStructure/HuffmanCodeTree"
 import HuffmanCode from "../Algorithms/HuffmanCode"
 import HuffmanCodeProblem from "../../Problems/HuffmanCodeProblem"
 import Matrix from "../../Components/Matrix";
+import StringArray from "../../Components/StringArray/StringArray"
 
 import "../../Utils/Main/Main.css"
 import "../../Utils/Font.css"
@@ -30,7 +31,7 @@ class HuffmanCodeVisualizer extends Component {
             label: false,
             Id: null,
             code: null,
-            subprobs: [],
+            subprobs: [props.data.message],
         }
         this.updateCode = this.updateCode.bind(this);
     }
@@ -54,17 +55,31 @@ class HuffmanCodeVisualizer extends Component {
             label: false,
             Id: null,
             code: null,
-            subprobs: [],
+            subprobs: [props.data.message],
         }))
     }
 
     /**
      * label updating
      */
+    exhaustiveCode() {
+        var numberOfDigits = Math.ceil(Math.log2(this.state.leaves));
+        var eLength = 0;
+        for (let i = 0; i < this.state.chars.length; i++) {
+            eLength += (this.state.freq[i] * numberOfDigits);
+        }
+        return [numberOfDigits, eLength];
+    }
     updateCode(code) {
 
+        var needCode = code.slice(0, this.state.leaves);
+        const codeUpdate = [this.state.chars, needCode]
+        this.mLength = 0;
+        for (let i = 0; i < this.state.chars.length; i++) {
+            this.mLength += (this.state.freq[i] * (needCode[i].length));
+        }
         this.setState({
-            code: code,
+            code: codeUpdate,
         })
     }
     /**
@@ -119,18 +134,11 @@ class HuffmanCodeVisualizer extends Component {
     /**
      * function is called when the startvisualiation is clicked
      */
+
     visualize() {
 
 
-        const allSteps = HuffmanCode(this.state.chars, this.state.freq, this.state.leaves);
-        /*console.log(all);
-        const allSteps = {
-            vertices: 14,
-            edges: [[], [], [], [0, 1], [3, 2], [4, 3], [5, 4], [6, 5], [7, 6], [8, 7], [9, 8], [10, 9], [11, 10], [12, 11]],
-            values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-            labels: []
-        }*/
-
+        const allSteps = HuffmanCode(this.state.chars, this.state.freq, this.state.leaves, this.props.data.message);
         this.setState(prevState => ({
             allSteps: allSteps,
             isRunning: true,
@@ -188,8 +196,8 @@ class HuffmanCodeVisualizer extends Component {
         };
         let width = Math.max(this.state.leaves * 150, 350);
         var height = 620;
-        var huffman = this.state.code !== null ? [this.state.chars, this.state.code.slice(0, this.state.leaves)] : '';
-        console.log(huffman);
+        var code = this.state.code;
+        let resultExhaustive = this.exhaustiveCode();
         return (
             <section>
                 <div className="visual">
@@ -204,23 +212,25 @@ class HuffmanCodeVisualizer extends Component {
                     </div>
                 </div>
                 <div className="smallsection">
-                    <label className="label heading"> Subproblems </label>
-                    <br />
-                    <Matrix
-                        matrix={createMatrix(this.state.subprobs, this.state.subprobs.length - 1, this.state.leaves - 1)}
-                        label={false}
-                        title=" Symbols"
-                        labeclassname="label subheading"
-                        description=""
-                    />
-
-                    {this.state.label ? <Matrix
-                        matrix={createMatrix(huffman, 1, this.state.leaves - 1)}
+                    <StringArray array={this.state.subprobs} title={"Sub Problems"} align={"left"} />
+                    {this.state.code !== null ? <div><Matrix
+                        matrix={createMatrix(code, 1, this.state.leaves - 1)}
                         label={false}
                         title=" Result"
                         labeclassname="label subheading"
                         description=""
-                    /> : ''}
+                    />
+
+                        <br />
+                        <div className="code">
+                            <label className="label subheading"> Comparison</label> <br />
+                            <label className="label subheading"> Fixed Length code</label> <br />
+
+                            <span> Number of digits = {resultExhaustive[0]}</span> <br />
+                            <span> Total message Length = {resultExhaustive[1]}</span> <br />
+                            <label className="label subheading">Huffman code</label> <br />
+                            <span> Total message Length = {this.mLength}</span>
+                        </div></div> : ''}
 
                 </div>
                 <section>
@@ -233,4 +243,6 @@ class HuffmanCodeVisualizer extends Component {
 
 }
 
+
 export default HuffmanCodeVisualizer;
+/**comment */

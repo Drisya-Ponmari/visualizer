@@ -46,6 +46,7 @@ class HuffmanCodeInput extends Component {
             leaves: leaves,
             chars: chars,
             values: values,
+            message: this.state.message
         }
         return data;
     }
