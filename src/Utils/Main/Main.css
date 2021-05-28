@@ -34,6 +34,13 @@ section{
     background-color: #f1f1f1;
     padding: 10px;
   }
+  .smallsection{
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    background-color: #e6cccc;
+    padding: 10px;
+  }
   
    /* Responsive layout - makes the menu and the content (inside the section) sit on top of each other instead of next to each other */
    @media (max-width: 600px) {
