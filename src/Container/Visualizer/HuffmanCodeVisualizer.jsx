@@ -220,6 +220,7 @@ class HuffmanCodeVisualizer extends Component {
                         labeclassname="label subheading"
                         description=""
                     />
+
                         <br />
                         <div className="code">
                             <label className="label subheading"> Comparison</label> <br />
@@ -244,3 +245,4 @@ class HuffmanCodeVisualizer extends Component {
 
 
 export default HuffmanCodeVisualizer;
+/**comment */
