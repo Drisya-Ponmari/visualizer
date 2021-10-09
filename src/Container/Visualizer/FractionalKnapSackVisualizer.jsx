@@ -48,7 +48,7 @@ class FractionalKnapsackVisualizer extends Component {
     componentWillReceiveProps(props) {
         let density = []
         for (let i = 0; i < props.data.values.length; i++) {
-            density.push((props.data.values[i] / props.data.weights[i]).toFixed(2));
+            density.push((props.data.values[i] / props.data.weights[i]));
         }
         this.setState({
             weight: createMatrix(props.data.weights, 0, props.data.numberOfItems - 1),
@@ -295,13 +295,13 @@ class FractionalKnapsackVisualizer extends Component {
                         labeclassname="label subheading"
                         description=""
                     />
-                    <Matrix
+                    {  /*<Matrix
                         matrix={this.state.density}
                         label={false}
                         title="Profit Per Weight"
                         labeclassname="label subheading"
                         description=""
-                    />
+                  /> */}
                     <br />
                     <div className="desc">
                         <p className="label subheading">Item profit taken: </p>

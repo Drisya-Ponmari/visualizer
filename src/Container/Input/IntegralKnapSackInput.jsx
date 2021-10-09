@@ -96,6 +96,7 @@ class IntegralKnapSackInput extends Component {
 
         return (
             <div style={{ textAlign: 'center' }} >
+                <p> sample input <br /> profit array = 1,2,3  weight array = 1,2,3 weight=10</p>
                 <form onSubmit={this.handleSubmit}>
                     <label className="label input">profit array</label>
                     <input type="text"

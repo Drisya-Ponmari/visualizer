@@ -267,7 +267,7 @@ class IntegralKnapsackVisualizer extends Component {
                     Iter: prevState.Iter + 1
                 }))
             }
-        }, this.state.speed);
+        }, 2000);
     }
 
     /**

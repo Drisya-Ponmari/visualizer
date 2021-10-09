@@ -58,6 +58,7 @@ class HuffmanCodeInput extends Component {
     render() {
         return (
             <div style={{ textAlign: 'center' }}>
+                <p> sample input <br /> aaaeeebbbg </p>
                 <form onSubmit={this.handleSubmit}>
                     <label className="label input"> Message </label>
                     <input type="text"
